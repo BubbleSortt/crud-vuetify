@@ -1,11 +1,14 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import api from '@/api';
+import groups from '@/store/groups';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  modules: {},
+  modules: {
+    groups,
+  },
   state: {
     items: [],
   },

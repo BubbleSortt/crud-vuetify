@@ -1,27 +1,12 @@
-class Students {
+class Api {
   constructor() {
-    this.base = '/rest';
+    this.base = 'http://localhost:3000/rest/';
   }
-  rest = async (url, options) => {
-    return await fetch(this.base + url, options);
+
+  rest = async (method, options) => {
+    return await fetch(this.base + method, options);
   };
 
-  students = () => this.rest('/students.json');
-
-  add = ( student ) => this.rest('/add-student', {
-    method: 'POST',
-    data: student
-  }).then(() => ({...student, id: new Date().getTime()}))
-
-  remove = ( id ) => this.rest('/remove-student', {
-    method: 'POST',
-    data: id,
-  }).then(() => id)
-
-  update = ( student ) => this.rest('/update-student', {
-    method: 'POST',
-    data: student,
-  }).then(() => student)
 }
 
-export default new Students();
+export default Api;

@@ -16,6 +16,17 @@ const routes = [
     props: true,
   },
   {
+    path: '/groups',
+    name: 'GroupsList',
+    component: () => import('@/views/GroupsList.vue'),
+  },
+  {
+    path: '/group-edit/:id?',
+    name: 'GroupEdit',
+    component: () => import('@/views/GroupEdit.vue'),
+    props: true,
+  },
+  {
     path: '*',
     name: 'NotFound',
     component: () => import('@/views/StudentsList.vue'),

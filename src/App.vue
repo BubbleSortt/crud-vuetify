@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <v-main>
-      <VContainer>
+      <div class='px-16 pt-6'>
         <router-view />
-      </VContainer>
+      </div>
     </v-main>
   </v-app>
 </template>
