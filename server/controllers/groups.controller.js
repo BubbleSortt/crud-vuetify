@@ -3,7 +3,7 @@ const { map, toNumber, toString, get } = require('lodash');
 
 class GroupsController {
 
-  getUsers = async (req, res) => {
+  getGroups = async (req, res) => {
     let groups =  await groupsModel.getAll();
     groups = map(groups, (group) => {
       return {
@@ -17,18 +17,20 @@ class GroupsController {
     res.send(groups);
   }
 
-  createUser = async (req, res) => {
-
+  createGroup = async (req, res) => {
+    const createdGroup = await groupsModel.create(req.body);
+    res.status(200).json(createdGroup);
   }
 
-  updateUser = async (req, res) => {
-
+  updateGroup = async (req, res) => {
+    const updatedRow = await groupsModel.update(req.body);
+    res.status(200).json(updatedRow);
   }
 
-  deleteUser = async (req, res) => {
+  deleteGroup = async (req, res) => {
     const { id } = req.body;
     const removedId = await groupsModel.delete(id)
-    res.status(201).json({ id: removedId })
+    res.status(200).json({ id: removedId })
   }
 }
 

@@ -44,8 +44,9 @@ export default {
       commit('removeItem', idRemoved);
     },
 
-    addItem: async ({ commit }, { speciality, name, leader, year }) => {
-      const response = await api.add({ speciality, name, leader, year })
+    createItem: async ({ commit }, { speciality, name, leader, year }) => {
+      console.log('add')
+      const response = await api.create({ speciality, name, leader, year })
       const item = await response.json()
       commit('setItem', item)
     },

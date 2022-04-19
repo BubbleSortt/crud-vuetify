@@ -125,7 +125,9 @@ export default {
       };
       this.id ?
         this.$store.dispatch('groups/updateItem', group) :
-        this.$store.dispatch('groups/addItem', group);
+        this.$store.dispatch('groups/createItem', group);
+
+      this.$router.push({ name: 'GroupsList' });
     }
   },
 

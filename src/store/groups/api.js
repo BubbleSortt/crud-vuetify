@@ -4,12 +4,12 @@ class Groups extends Api {
 
   getAll = () => this.rest('groups/');
 
-  create = ( student ) => this.rest('groups/create', {
+  create = ( { speciality, name, leader, year } ) => this.rest('groups/create', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(student),
+    body: JSON.stringify({ speciality, name, leader, year }),
   })
 
   delete = ( id ) => this.rest('groups/delete', {
