@@ -3,10 +3,7 @@
     <VDataTable
       :headers="[
           { text: 'ID', value: 'id' },
-          { text: 'Специальность', value: 'speciality' },
-          { text: 'Название группы', value: 'name' },
-          { text: 'Фамилия старосты', value: 'leader' },
-          { text: 'Год поступления', value: 'year' },
+          { text: 'Должность', value: 'post' },
           { text: 'Управление', value: 'control', align: 'center', },
         ]"
       :items="items"
@@ -15,7 +12,7 @@
     >
 
       <template v-slot:[`item.control`]="{ item }">
-        <RouterLink :to="{ name: 'GroupEdit', params: { id: item.id } }" >
+        <RouterLink :to="{ name: 'PostEdit', params: { id: item.id } }" >
           <VBtn
             depressed
             color="primary"
@@ -39,7 +36,7 @@
       </template>
     </VDataTable>
 
-    <RouterLink :to="{ name: 'GroupEdit' }" >
+    <RouterLink :to="{ name: 'PostEdit' }" >
       <VBtn
         depressed
         color="primary"
@@ -54,8 +51,8 @@
         <VCardTitle class="text-h5 justify-center mb-6">Вы действительно хотите удалить запись?</VCardTitle>
         <VCardActions>
           <VSpacer></VSpacer>
-          <VBtn color="info darken-1" @click='closeDialogDelete' >Отмена</VBtn>
-          <VBtn color="error darken-1" @click='onClickDelete' >Удалить</VBtn>
+          <VBtn color="info darken-1" @click='closeDialogDelete'>Отмена</VBtn>
+          <VBtn color="error darken-1" @click='onClickDelete'>Удалить</VBtn>
           <VSpacer></VSpacer>
         </VCardActions>
       </VCard>
@@ -76,16 +73,16 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('groups/fetchItems');
+    this.$store.dispatch('posts/fetchItems');
   },
   computed: {
     ...mapGetters({
-      items: 'groups/items',
+      items: 'posts/items',
     })
   },
   methods: {
     onClickDelete: function() {
-      this.$store.dispatch('groups/removeItem', this.editingId);
+      this.$store.dispatch('posts/removeItem', this.editingId);
       this.dialogDelete = false;
       this.editingId = -1;
     },
