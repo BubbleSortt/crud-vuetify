@@ -38,6 +38,17 @@ const routes = [
     props: true,
   },
   {
+    path: '/degrees',
+    name: 'DegreesList',
+    component: () => import('@/views/DegreesList.vue'),
+  },
+  {
+    path: '/degree-edit/:id?',
+    name: 'DegreeEdit',
+    component: () => import('@/views/DegreeEdit.vue'),
+    props: true,
+  },
+  {
     path: '/posts',
     name: 'PostsList',
     component: () => import('@/views/PostsList.vue'),
