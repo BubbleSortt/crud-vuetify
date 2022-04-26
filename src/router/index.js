@@ -27,6 +27,17 @@ const routes = [
     props: true,
   },
   {
+    path: '/lessons',
+    name: 'LessonsList',
+    component: () => import('@/views/LessonsList.vue'),
+  },
+  {
+    path: '/lesson-edit/:id?',
+    name: 'LessonEdit',
+    component: () => import('@/views/LessonEdit.vue'),
+    props: true,
+  },
+  {
     path: '/posts',
     name: 'PostsList',
     component: () => import('@/views/PostsList.vue'),

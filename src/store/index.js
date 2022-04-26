@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import api from '@/api';
 import groups from '@/store/groups';
 import posts from '@/store/posts';
+import lessons from '@/store/lessons';
 
 Vue.use(Vuex);
 
@@ -10,6 +11,7 @@ export default new Vuex.Store({
   modules: {
     groups,
     posts,
+    lessons,
   },
   state: {
     items: [],
