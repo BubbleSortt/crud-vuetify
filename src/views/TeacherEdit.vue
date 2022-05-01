@@ -45,19 +45,19 @@
           required
         />
 
-        <VTextField
+        <v-select
           v-model='form.postId'
-          :rules='postIdRules'
-          label='id должности'
+          :items="postsId"
+          label="id должности"
           required
-        />
+        ></v-select>
 
-        <VTextField
+        <v-select
           v-model='form.degreeId'
-          :rules='degreeIdRules'
-          label='id ученой степени'
+          :items="degreesId"
+          label="id ученой степени"
           required
-        />
+        ></v-select>
 
         <VBtn
           depressed
@@ -85,6 +85,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { map } from 'lodash';
 
 export default {
   props: {
@@ -138,8 +139,18 @@ export default {
     },
 
     ...mapGetters({
-      'itemById': 'teachers/itemById'
-    })
+      'itemById': 'teachers/itemById',
+      'degrees': 'degrees/items',
+      'posts': 'posts/items',
+    }),
+
+    degreesId: function() {
+      return map(this.degrees, ({ id }) => id)
+    },
+
+    postsId: function() {
+      return map(this.posts, ({ id }) => id)
+    }
   },
   watch: {
     teacher: function() {
@@ -170,6 +181,8 @@ export default {
 
   created() {
     this.$store.dispatch('teachers/fetchItems');
+    this.$store.dispatch('degrees/fetchItems');
+    this.$store.dispatch('posts/fetchItems');
   }
 };
 </script>

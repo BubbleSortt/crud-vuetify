@@ -42,7 +42,7 @@
       </template>
     </VDataTable>
 
-    <RouterLink :to="{ name: 'LessonEdit' }">
+    <RouterLink :to="{ name: 'TeacherEdit' }">
       <VBtn
         depressed
         color='primary'
