@@ -5,6 +5,7 @@ import groups from '@/store/groups';
 import posts from '@/store/posts';
 import lessons from '@/store/lessons';
 import degrees from '@/store/degrees';
+import couples from '@/store/couples';
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     posts,
     lessons,
     degrees,
+    couples,
   },
   state: {
     items: [],

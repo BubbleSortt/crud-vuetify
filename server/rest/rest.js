@@ -4,11 +4,13 @@ const groups = require('./groups/index');
 const posts = require('./posts/index');
 const lessons = require('./lessons/index');
 const degrees = require('./degrees/index');
+const couples = require('./couples/index');
 
 
 router.use('/groups', groups);
 router.use('/posts', posts);
 router.use('/lessons', lessons);
 router.use('/degrees', degrees);
+router.use('/couples', couples);
 
 module.exports = router;

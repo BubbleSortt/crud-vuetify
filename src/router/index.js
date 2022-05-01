@@ -38,6 +38,17 @@ const routes = [
     props: true,
   },
   {
+    path: '/couples',
+    name: 'CouplesList',
+    component: () => import('@/views/CouplesList.vue'),
+  },
+  {
+    path: '/couple-edit/:id?',
+    name: 'CoupleEdit',
+    component: () => import('@/views/CoupleEdit.vue'),
+    props: true,
+  },
+  {
     path: '/degrees',
     name: 'DegreesList',
     component: () => import('@/views/DegreesList.vue'),
