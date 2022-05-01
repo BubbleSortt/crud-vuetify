@@ -71,6 +71,17 @@ const routes = [
     props: true,
   },
   {
+    path: '/teachers',
+    name: 'TeachersList',
+    component: () => import('@/views/TeachersList.vue'),
+  },
+  {
+    path: '/teacher-edit/:id?',
+    name: 'TeacherEdit',
+    component: () => import('@/views/TeacherEdit.vue'),
+    props: true,
+  },
+  {
     path: '*',
     name: 'NotFound',
     component: () => import('@/views/StudentsList.vue'),

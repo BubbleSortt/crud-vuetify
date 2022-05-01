@@ -18,6 +18,9 @@
           <div class='px-2'>
             <RouterLink tag='a' class='btn' :to="{ name: 'CouplesList' }">Проведенные пары</RouterLink>
           </div>
+          <div class='px-2'>
+            <RouterLink tag='a' class='btn' :to="{ name: 'TeachersList' }">Преподаватели</RouterLink>
+          </div>
         </div>
         <router-view />
       </div>
