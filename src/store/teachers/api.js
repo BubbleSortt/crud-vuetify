@@ -1,6 +1,6 @@
 import Api from '@/api/index';
 
-class Posts extends Api {
+class Teachers extends Api {
 
   getAll = () => this.rest('teachers/');
 
@@ -29,4 +29,4 @@ class Posts extends Api {
   })
 }
 
-export default new Posts();
+export default new Teachers();

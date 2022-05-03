@@ -48,7 +48,7 @@
             color='warning'
             class='mt-7'
           >
-            Все группы
+            Все пары
           </VBtn>
         </RouterLink>
       </VForm>

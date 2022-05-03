@@ -1,6 +1,6 @@
 import Api from '@/api/index';
 
-class Degrees extends Api {
+class Couples extends Api {
 
   getAll = () => this.rest('couples/');
 
@@ -29,4 +29,4 @@ class Degrees extends Api {
   })
 }
 
-export default new Degrees();
+export default new Couples();

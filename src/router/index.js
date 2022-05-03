@@ -82,6 +82,17 @@ const routes = [
     props: true,
   },
   {
+    path: '/capacities',
+    name: 'CapacitiesList',
+    component: () => import('@/views/CapacitiesList.vue'),
+  },
+  {
+    path: '/capacity-edit/:id?',
+    name: 'CapacityEdit',
+    component: () => import('@/views/CapacityEdit.vue'),
+    props: true,
+  },
+  {
     path: '*',
     name: 'NotFound',
     component: () => import('@/views/StudentsList.vue'),

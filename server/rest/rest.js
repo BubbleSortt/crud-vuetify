@@ -6,6 +6,7 @@ const lessons = require('./lessons/index');
 const degrees = require('./degrees/index');
 const couples = require('./couples/index');
 const teachers = require('./teachers/index');
+const capacities = require('./capacities/index');
 
 
 router.use('/groups', groups);
@@ -14,5 +15,6 @@ router.use('/lessons', lessons);
 router.use('/degrees', degrees);
 router.use('/couples', couples);
 router.use('/teachers', teachers);
+router.use('/capacities', capacities);
 
 module.exports = router;

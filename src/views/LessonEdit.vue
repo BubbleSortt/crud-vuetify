@@ -32,7 +32,7 @@
             color='warning'
             class='mt-7'
           >
-            Все группы
+            Все предметы
           </VBtn>
         </RouterLink>
       </VForm>

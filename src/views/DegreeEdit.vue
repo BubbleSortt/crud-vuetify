@@ -32,7 +32,7 @@
             color='warning'
             class='mt-7'
           >
-            Все группы
+            Все ученые степени
           </VBtn>
         </RouterLink>
       </VForm>

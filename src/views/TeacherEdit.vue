@@ -75,7 +75,7 @@
             color='warning'
             class='mt-7'
           >
-            Все группы
+            Все преподаватели
           </VBtn>
         </RouterLink>
       </VForm>
