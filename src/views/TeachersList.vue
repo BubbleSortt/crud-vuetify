@@ -1,7 +1,17 @@
 <template>
   <div>
-    <VDataTable
-      :headers="[
+    <VCard>
+      <VCardTitle>
+        <VTextField
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Поиск"
+          single-line
+          hide-details
+        ></VTextField>
+      </VCardTitle>
+      <VDataTable
+        :headers="[
           { text: 'ID', value: 'id' },
           { text: 'Фамилия', value: 'surname' },
           { text: 'Имя', value: 'name' },
@@ -12,35 +22,35 @@
           { text: 'id ученой степени', value: 'degreeId' },
           { text: 'Control', value: 'control', align: 'center', },
         ]"
-      :items='items'
-      :items-per-page='5'
-      class='elevation-1'
-    >
+        :items='items'
+        :items-per-page='5'
+      >
 
-      <template v-slot:[`item.control`]='{ item }'>
-        <RouterLink :to="{ name: 'TeacherEdit', params: { id: item.id } }">
+        <template v-slot:[`item.control`]='{ item }'>
+          <RouterLink :to="{ name: 'TeacherEdit', params: { id: item.id } }">
+            <VBtn
+              depressed
+              color='primary'
+            >
+              <v-icon small>
+                mdi-pencil
+              </v-icon>
+            </VBtn>
+          </RouterLink>
+
           <VBtn
             depressed
-            color='primary'
+            color='error'
+            class='ml-2 px-0'
+            @click='callDialogDelete(item.id)'
           >
             <v-icon small>
-              mdi-pencil
+              mdi-delete
             </v-icon>
           </VBtn>
-        </RouterLink>
-
-        <VBtn
-          depressed
-          color='error'
-          class='ml-2 px-0'
-          @click='callDialogDelete(item.id)'
-        >
-          <v-icon small>
-            mdi-delete
-          </v-icon>
-        </VBtn>
-      </template>
-    </VDataTable>
+        </template>
+      </VDataTable>
+    </VCard>
 
     <RouterLink :to="{ name: 'TeacherEdit' }">
       <VBtn
@@ -69,6 +79,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { debounce } from 'lodash';
+import Teachers from '@/store/teachers/api';
 
 export default {
 
@@ -76,6 +88,8 @@ export default {
     return {
       dialogDelete: false,
       editingId: -1,
+      search: '',
+      searchItems: [],
     }
   },
 
@@ -84,8 +98,21 @@ export default {
   },
   computed: {
     ...mapGetters({
-      items: 'teachers/items',
-    })
+      stateItems: 'teachers/items',
+    }),
+    items: function () {
+      if (this.searchItems.length) {
+        return this.searchItems;
+      } else {
+        return this.stateItems;
+      }
+    }
+  },
+  watch: {
+    search: debounce(async function(text) {
+      const response = await Teachers.search({ text });
+      this.searchItems = await response.json();
+    }, 300)
   },
   methods: {
     onClickDelete: function() {

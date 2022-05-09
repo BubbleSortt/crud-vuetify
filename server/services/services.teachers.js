@@ -48,6 +48,17 @@ class Teachers {
     await sequelize.query(`DELETE FROM \`Преподаватели\` WHERE \`Преподаватели\`.\`id_Преподавателя\` = ${id}`, { type: QueryTypes.DELETE });
     return id;
   };
+
+  search = async (text) => {
+    return await sequelize.query(`SELECT * FROM \`Преподаватели\` WHERE
+    \`id_Преподавателя\` LIKE '%${text}%' OR 
+    \`Имя\` LIKE '%${text}%' OR
+    \`Отчество\` LIKE '%${text}%' OR
+    \`Ставка\` LIKE '%${text}%' OR
+    \`Общее_кол-во_часов\` LIKE '%${text}%' OR
+    \`id_должности\` LIKE '%${text}%' OR
+    \`id_ученой степени\` LIKE '%${text}%'`, { type: QueryTypes.SELECT });
+  }
 }
 
 module.exports = new Teachers();

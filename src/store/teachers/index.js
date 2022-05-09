@@ -55,6 +55,5 @@ export default {
       const item = await response.json();
       commit('updateItem', item);
     }
-
   },
 }

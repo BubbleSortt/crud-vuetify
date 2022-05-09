@@ -35,6 +35,14 @@ class TeachersController {
     const removedId = await teachersModel.delete(id)
     res.status(200).json({ id: removedId })
   }
+
+  search = async (req, res) => {
+    const { text } = req.body;
+    const teachers = await teachersModel.search(text)
+    console.log(teachers, '\nteachers search')
+    res.status(200).send(teachers)
+
+  }
 }
 
 module.exports = new TeachersController();
