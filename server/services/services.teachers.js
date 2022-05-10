@@ -53,6 +53,7 @@ class Teachers {
     return await sequelize.query(`SELECT * FROM \`Преподаватели\` WHERE
     \`id_Преподавателя\` LIKE '%${text}%' OR 
     \`Имя\` LIKE '%${text}%' OR
+    \`Фамилия\` LIKE '%${text}%' OR
     \`Отчество\` LIKE '%${text}%' OR
     \`Ставка\` LIKE '%${text}%' OR
     \`Общее_кол-во_часов\` LIKE '%${text}%' OR

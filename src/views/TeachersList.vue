@@ -89,7 +89,7 @@ export default {
       dialogDelete: false,
       editingId: -1,
       search: '',
-      searchItems: [],
+      searchItems: '',
     }
   },
 
@@ -101,11 +101,7 @@ export default {
       stateItems: 'teachers/items',
     }),
     items: function () {
-      if (this.searchItems.length) {
-        return this.searchItems;
-      } else {
-        return this.stateItems;
-      }
+      return this.searchItems || this.stateItems
     }
   },
   watch: {

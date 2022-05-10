@@ -93,6 +93,11 @@ const routes = [
     props: true,
   },
   {
+    path: '/console',
+    name: 'QueryConsole',
+    component: () => import('@/views/QueryConsole.vue'),
+  },
+  {
     path: '*',
     name: 'NotFound',
     component: () => import('@/views/StudentsList.vue'),

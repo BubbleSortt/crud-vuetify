@@ -38,8 +38,19 @@ class TeachersController {
 
   search = async (req, res) => {
     const { text } = req.body;
-    const teachers = await teachersModel.search(text)
-    console.log(teachers, '\nteachers search')
+    let teachers = await teachersModel.search(text)
+    teachers = map(teachers, (teacher) => {
+      return {
+        id: toNumber(get(teacher, 'id_Преподавателя', '')),
+        surname: toString(get(teacher, 'Фамилия', '')),
+        name: toString(get(teacher, 'Имя', '')),
+        patronymic: toString(get(teacher, 'Отчество', '')),
+        rate: toNumber(get(teacher, 'Ставка', '')),
+        totalHours: toNumber(get(teacher, 'Общее_кол-во_часов', '')),
+        postId: toNumber(get(teacher, 'id_должности', '')),
+        degreeId: toNumber(get(teacher, 'id_ученой степени', '')),
+      }
+    })
     res.status(200).send(teachers)
 
   }

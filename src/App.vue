@@ -24,6 +24,9 @@
           <div class='px-2'>
             <RouterLink tag='a' class='btn' :to="{ name: 'CapacitiesList' }">Нагрузка</RouterLink>
           </div>
+          <div class='px-2'>
+            <RouterLink tag='a' class='btn' :to="{ name: 'QueryConsole' }">Консоль</RouterLink>
+          </div>
         </div>
         <router-view />
       </div>
