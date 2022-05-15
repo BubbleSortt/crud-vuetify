@@ -24,7 +24,9 @@
         ]"
         :items='items'
         :items-per-page='5'
+        :custom-sort='customSort'
       >
+
 
         <template v-slot:[`item.control`]='{ item }'>
           <RouterLink :to="{ name: 'TeacherEdit', params: { id: item.id } }">
@@ -90,6 +92,7 @@ export default {
       editingId: -1,
       search: '',
       searchItems: '',
+      sortedItems: []
     }
   },
 
@@ -123,6 +126,19 @@ export default {
     closeDialogDelete: function() {
       this.dialogDelete = false;
       this.editingId = -1;
+    },
+    customSort(items, sortBy, sortDesc) {
+      const col = sortBy[0];
+      const sort = sortDesc[0] ? 'DESC': 'ASC';
+      if (typeof col === 'undefined' || typeof sort === 'undefined') {
+        return this.items;
+      }
+
+      Teachers.sort({
+        sortBy: col,
+        sortDesc: sort,
+      }).then(res => res.json())
+      return Array.from(this.sortedItems);
     }
   },
 };

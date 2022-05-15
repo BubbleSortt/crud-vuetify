@@ -60,6 +60,10 @@ class Teachers {
     \`id_должности\` LIKE '%${text}%' OR
     \`id_ученой степени\` LIKE '%${text}%'`, { type: QueryTypes.SELECT });
   }
+
+  sort = async ({ sortBy, sortDesc }) => {
+    return await sequelize.query(`SELECT * FROM \`Преподаватели\` ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
+  }
 }
 
 module.exports = new Teachers();

@@ -36,6 +36,14 @@ class Teachers extends Api {
      },
      body: JSON.stringify({ text }),
    })
+
+  sort = ({ sortBy, sortDesc }) => this.rest('teachers/sort', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sortBy, sortDesc }),
+  })
 }
 
 export default new Teachers();
