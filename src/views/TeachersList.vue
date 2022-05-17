@@ -24,7 +24,8 @@
         ]"
         :items='items'
         :items-per-page='5'
-        :custom-sort='customSort'
+        :options.sync="options"
+        :loading='loading'
       >
 
 
@@ -92,7 +93,9 @@ export default {
       editingId: -1,
       search: '',
       searchItems: '',
-      sortedItems: []
+      sortedItems: 0,
+      loading: false,
+      options: {},
     }
   },
 
@@ -104,14 +107,20 @@ export default {
       stateItems: 'teachers/items',
     }),
     items: function () {
-      return this.searchItems || this.stateItems
+      return this.sortedItems || this.searchItems || this.stateItems
     }
   },
   watch: {
     search: debounce(async function(text) {
       const response = await Teachers.search({ text });
       this.searchItems = await response.json();
-    }, 300)
+    }, 300),
+    options: {
+      handler () {
+        this.getSorted()
+      },
+      deep: true,
+    },
   },
   methods: {
     onClickDelete: function() {
@@ -127,18 +136,23 @@ export default {
       this.dialogDelete = false;
       this.editingId = -1;
     },
-    customSort(items, sortBy, sortDesc) {
+    getSorted() {
+      const { sortBy , sortDesc } = this.options
       const col = sortBy[0];
       const sort = sortDesc[0] ? 'DESC': 'ASC';
       if (typeof col === 'undefined' || typeof sort === 'undefined') {
-        return this.items;
+        this.sortedItems = 0;
+      } else {
+        this.loading = true;
+        Teachers.sort({
+          sortBy: col,
+          sortDesc: sort,
+        }).then(res => res.json()).then(res => {
+          this.loading = false;
+          this.sortedItems = res;
+        })
       }
 
-      Teachers.sort({
-        sortBy: col,
-        sortDesc: sort,
-      }).then(res => res.json())
-      return Array.from(this.sortedItems);
     }
   },
 };
