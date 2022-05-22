@@ -6,5 +6,7 @@ router.get('/', PostsController.getGroups)
 router.post('/delete', PostsController.deleteGroup)
 router.post('/create', PostsController.createGroup)
 router.post('/update', PostsController.updateGroup)
+router.post('/search', PostsController.search)
+router.post('/sort', PostsController.sort)
 
 module.exports = router;

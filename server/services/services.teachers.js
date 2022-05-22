@@ -1,12 +1,6 @@
 const sequelize = require('./connection');
 const { QueryTypes } = require('sequelize');
-const { reduce } = require('lodash');
-
-function prepareForIn(items) {
-  return reduce(items, (string, item, idx) => {
-    return  ++idx === items.length ? string + item + ')' : string + item + ',';
-  }, '(')
-}
+const { prepareForIn } = require('../helpers');
 
 class Teachers {
 

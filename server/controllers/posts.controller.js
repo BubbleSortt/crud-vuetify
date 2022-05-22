@@ -1,16 +1,25 @@
 const postsModel = require('./../services/services.posts')
 const { map, toNumber, toString, get } = require('lodash');
 
+const DICTIONARY = {
+  id: 'id должности',
+  post: 'Должность',
+}
+
 class PostsController {
 
-  getGroups = async (req, res) => {
-    let posts = await postsModel.getAll();
-    posts = map(posts, (post) => {
+  adapter = (posts) => {
+    return map(posts, (post) => {
       return {
         id: toNumber(get(post, 'id должности', '')),
         post: toString(get(post, 'Должность', '')),
       }
     })
+  }
+
+  getGroups = async (req, res) => {
+    let posts = await postsModel.getAll();
+    posts = this.adapter(posts);
     res.send(posts);
   }
 
@@ -28,6 +37,21 @@ class PostsController {
     const { id } = req.body;
     const removedId = await postsModel.delete(id)
     res.status(200).json({ id: removedId })
+  }
+
+  search = async (req, res) => {
+    const { text } = req.body;
+    let teachers = await postsModel.search({ text });
+    teachers = this.adapter(teachers)
+    res.status(200).send(teachers);
+  }
+
+  sort = async (req, res) => {
+    let { sortBy, sortDesc, items } = req.body;
+    sortBy = DICTIONARY[sortBy];
+    let sorted = await postsModel.sort({ sortBy, sortDesc, items });
+    sorted = this.adapter(sorted);
+    res.status(200).send(sorted);
   }
 }
 

@@ -27,6 +27,22 @@ class Posts extends Api {
     },
     body: JSON.stringify(post),
   })
+
+  search = ({ text }) => this.rest('posts/search', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ text }),
+  })
+
+  sort = ({ sortBy, sortDesc, items }) => this.rest('posts/sort', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sortBy, sortDesc, items }),
+  })
 }
 
 export default new Posts();
