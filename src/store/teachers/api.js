@@ -37,12 +37,12 @@ class Teachers extends Api {
      body: JSON.stringify({ text }),
    })
 
-  sort = ({ sortBy, sortDesc }) => this.rest('teachers/sort', {
+  sort = ({ sortBy, sortDesc, items }) => this.rest('teachers/sort', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ sortBy, sortDesc }),
+    body: JSON.stringify({ sortBy, sortDesc, items }),
   })
 }
 

@@ -1,6 +1,12 @@
 const sequelize = require('./connection');
 const { QueryTypes } = require('sequelize');
+const { reduce } = require('lodash');
 
+function prepareForIn(items) {
+  return reduce(items, (string, item, idx) => {
+    return  ++idx === items.length ? string + item + ')' : string + item + ',';
+  }, '(')
+}
 
 class Teachers {
 
@@ -39,7 +45,7 @@ class Teachers {
     \`Общее_кол-во_часов\` = '${totalHours}',
     \`id_должности\` = '${postId}',
     \`id_ученой степени\` = '${degreeId}'
-     WHERE \`Преподаватели\`.\`id_Преподавателя\` = ${id};`, { type: QueryTypes.UPDATE })
+     WHERE \`Преподаватели\`.\`id_Преподавателя\` = ${id}`, { type: QueryTypes.UPDATE })
 
     return await sequelize.query(`SELECT * FROM \`Преподаватели\` WHERE \`id_Преподавателя\` = ${id}`, { type: QueryTypes.SELECT })
   };
@@ -49,7 +55,7 @@ class Teachers {
     return id;
   };
 
-  search = async (text) => {
+  search = async ({ text }) => {
     return await sequelize.query(`SELECT * FROM \`Преподаватели\` WHERE
     \`id_Преподавателя\` LIKE '%${text}%' OR 
     \`Имя\` LIKE '%${text}%' OR
@@ -61,8 +67,8 @@ class Teachers {
     \`id_ученой степени\` LIKE '%${text}%'`, { type: QueryTypes.SELECT });
   }
 
-  sort = async ({ sortBy, sortDesc }) => {
-    return await sequelize.query(`SELECT * FROM \`Преподаватели\` ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
+  sort = async ({ sortBy, sortDesc, items }) => {
+    return await sequelize.query(`SELECT * FROM \`Преподаватели\` WHERE \`id_Преподавателя\` IN ${prepareForIn(items)} ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
   }
 }
 

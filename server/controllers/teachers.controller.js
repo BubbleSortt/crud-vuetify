@@ -39,15 +39,14 @@ class TeachersController {
 
   search = async (req, res) => {
     const { text } = req.body;
-    let teachers = await teachersModel.search(text);
+    let teachers = await teachersModel.search({ text });
     teachers = this.adapter(teachers)
     res.status(200).send(teachers);
   }
   sort = async (req, res) => {
-    let { sortBy, sortDesc } = req.body;
+    let { sortBy, sortDesc, items } = req.body;
     sortBy = DICTIONARY[sortBy];
-    console.log(sortBy, 'sort by')
-    let sorted = await teachersModel.sort({ sortBy, sortDesc });
+    let sorted = await teachersModel.sort({ sortBy, sortDesc, items });
     sorted = this.adapter(sorted);
     res.status(200).send(sorted);
   }

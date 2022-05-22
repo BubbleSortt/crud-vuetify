@@ -76,13 +76,12 @@
         </VCardActions>
       </VCard>
     </VDialog>
-
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import { debounce } from 'lodash';
+import { debounce, map } from 'lodash';
 import Teachers from '@/store/teachers/api';
 
 export default {
@@ -144,16 +143,17 @@ export default {
         this.sortedItems = 0;
       } else {
         this.loading = true;
+        const items = map(this.items, ({ id }) => id)
         Teachers.sort({
           sortBy: col,
           sortDesc: sort,
+          items,
         }).then(res => res.json()).then(res => {
           this.loading = false;
           this.sortedItems = res;
         })
       }
-
-    }
+    },
   },
 };
 </script>
