@@ -1,5 +1,6 @@
 const sequelize = require('./connection');
 const { QueryTypes } = require('sequelize');
+const { prepareForIn } = require('../helpers');
 
 
 class Groups {
@@ -37,6 +38,19 @@ class Groups {
   delete = async (id) => {
     await sequelize.query(`DELETE FROM \`Группы\` WHERE \`Группы\`.\`id\` = ${id}`, { type: QueryTypes.DELETE });
     return id;
+  };
+
+  search = async ({ text }) => {
+    return await sequelize.query(`SELECT * FROM \`Группы\` WHERE
+    \`id\` LIKE '%${text}%' OR 
+    \`Специальность\` LIKE '%${text}%' OR
+    \`Название_группы\` LIKE '%${text}%' OR
+    \`Фамилия_старосты\` LIKE '%${text}%' OR
+    \`Год_поступления\` LIKE '%${text}%'`, { type: QueryTypes.SELECT });
+  };
+
+  sort = async ({ sortBy, sortDesc, items }) => {
+    return await sequelize.query(`SELECT * FROM \`Группы\` WHERE \`id\` IN ${prepareForIn(items)} ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
   };
 }
 

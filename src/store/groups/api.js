@@ -27,6 +27,22 @@ class Groups extends Api {
     },
     body: JSON.stringify(student),
   })
+
+  search = ({ text }) => this.rest('groups/search', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ text }),
+  })
+
+  sort = ({ sortBy, sortDesc, items }) => this.rest('groups/sort', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sortBy, sortDesc, items }),
+  })
 }
 
 export default new Groups({});
