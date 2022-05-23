@@ -1,5 +1,6 @@
 const sequelize = require('./connection');
 const { QueryTypes } = require('sequelize');
+const { prepareForIn } = require('../helpers');
 
 
 class Couples {
@@ -35,6 +36,18 @@ class Couples {
     await sequelize.query(`DELETE FROM \`Проведенные пары\` WHERE \`Проведенные пары\`.\`id\` = ${id}`, { type: QueryTypes.DELETE });
     return id;
   };
+
+  search = async ({ text }) => {
+    return await sequelize.query(`SELECT * FROM \`Проведенные пары\` WHERE
+    \`id\` LIKE '%${text}%' OR 
+    \`Аудитория\` LIKE '%${text}%' OR
+    \`Время\` LIKE '%${text}%' OR
+    \`Нагрузка_id\` LIKE '%${text}%'`, { type: QueryTypes.SELECT });
+  }
+
+  sort = async ({ sortBy, sortDesc, items }) => {
+    return await sequelize.query(`SELECT * FROM \`Проведенные пары\` WHERE \`id\` IN ${prepareForIn(items)} ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
+  }
 }
 
 module.exports = new Couples();

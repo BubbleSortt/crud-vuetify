@@ -27,6 +27,22 @@ class Couples extends Api {
     },
     body: JSON.stringify({ id, time, audience, capacityId }),
   })
+
+  search = ({ text }) => this.rest('couples/search', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ text }),
+  })
+
+  sort = ({ sortBy, sortDesc, items }) => this.rest('couples/sort', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sortBy, sortDesc, items }),
+  })
 }
 
 export default new Couples();
