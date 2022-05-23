@@ -1,16 +1,25 @@
 const degreesModel = require('./../services/services.degrees')
 const { map, toNumber, toString, get } = require('lodash');
 
+const DICTIONARY = {
+  id: 'id',
+  name: 'Наименование_степени',
+}
+
 class LessonsController {
 
-  getDegrees = async (req, res) => {
-    let degrees = await degreesModel.getAll();
-    degrees = map(degrees, (degree) => {
+  adapter = (degrees) => {
+    return map(degrees, (degree) => {
       return {
         id: toNumber(get(degree, 'id', '')),
         name: toString(get(degree, 'Наименование_степени', '')),
       }
     })
+  }
+
+  getDegrees = async (req, res) => {
+    let degrees = await degreesModel.getAll();
+    degrees = this.adapter(degrees)
     res.send(degrees);
   }
 
@@ -28,6 +37,20 @@ class LessonsController {
     const { id } = req.body;
     const removedId = await degreesModel.delete(id)
     res.status(200).json({ id: removedId })
+  }
+
+  search = async (req, res) => {
+    const { text } = req.body;
+    let teachers = await degreesModel.search({ text });
+    teachers = this.adapter(teachers)
+    res.status(200).send(teachers);
+  }
+  sort = async (req, res) => {
+    let { sortBy, sortDesc, items } = req.body;
+    sortBy = DICTIONARY[sortBy];
+    let sorted = await degreesModel.sort({ sortBy, sortDesc, items });
+    sorted = this.adapter(sorted);
+    res.status(200).send(sorted);
   }
 }
 
