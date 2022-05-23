@@ -1,40 +1,52 @@
 <template>
   <div>
-    <VDataTable
-      :headers="[
+    <VCard>
+      <VCardTitle>
+        <VTextField
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Поиск"
+          single-line
+          hide-details
+        ></VTextField>
+      </VCardTitle>
+      <VDataTable
+        :headers="[
           { text: 'ID', value: 'id' },
           { text: 'Предмет', value: 'name' },
           { text: 'Управление', value: 'control', align: 'center', },
         ]"
-      :items="items"
-      :items-per-page="5"
-      class="elevation-1"
-    >
+        :items="items"
+        :items-per-page="5"
+        :options.sync="options"
+        :loading='loading'
+      >
 
-      <template v-slot:[`item.control`]="{ item }">
-        <RouterLink :to="{ name: 'LessonEdit', params: { id: item.id } }" >
+        <template v-slot:[`item.control`]="{ item }">
+          <RouterLink :to="{ name: 'LessonEdit', params: { id: item.id } }" >
+            <VBtn
+              depressed
+              color="primary"
+            >
+              <v-icon small>
+                mdi-pencil
+              </v-icon>
+            </VBtn>
+          </RouterLink>
+
           <VBtn
             depressed
-            color="primary"
+            color="error"
+            class="ml-2 px-0"
+            @click="callDialogDelete(item.id)"
           >
             <v-icon small>
-              mdi-pencil
+              mdi-delete
             </v-icon>
           </VBtn>
-        </RouterLink>
-
-        <VBtn
-          depressed
-          color="error"
-          class="ml-2 px-0"
-          @click="callDialogDelete(item.id)"
-        >
-          <v-icon small>
-            mdi-delete
-          </v-icon>
-        </VBtn>
-      </template>
-    </VDataTable>
+        </template>
+      </VDataTable>
+    </VCard>
 
     <RouterLink :to="{ name: 'LessonEdit' }" >
       <VBtn
@@ -63,12 +75,20 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { debounce, map } from 'lodash';
+import Lessons from '@/store/lessons/api';
+
 export default {
 
   data() {
     return {
       dialogDelete: false,
       editingId: -1,
+      search: '',
+      searchItems: '',
+      sortedItems: 0,
+      loading: false,
+      options: {},
     }
   },
 
@@ -77,8 +97,23 @@ export default {
   },
   computed: {
     ...mapGetters({
-      items: 'lessons/items',
-    })
+      stateItems: 'lessons/items',
+    }),
+    items: function () {
+      return this.sortedItems || this.searchItems || this.stateItems
+    }
+  },
+  watch: {
+    search: debounce(async function(text) {
+      const response = await Lessons.search({ text });
+      this.searchItems = await response.json();
+    }, 300),
+    options: {
+      handler () {
+        this.getSorted()
+      },
+      deep: true,
+    },
   },
   methods: {
     onClickDelete: function() {
@@ -93,7 +128,26 @@ export default {
     closeDialogDelete: function() {
       this.dialogDelete = false;
       this.editingId = -1;
-    }
+    },
+    getSorted() {
+      const { sortBy , sortDesc } = this.options
+      const col = sortBy[0];
+      const sort = sortDesc[0] ? 'DESC': 'ASC';
+      if (typeof col === 'undefined' || typeof sort === 'undefined') {
+        this.sortedItems = 0;
+      } else {
+        this.loading = true;
+        const items = map(this.items, ({ id }) => id)
+        Lessons.sort({
+          sortBy: col,
+          sortDesc: sort,
+          items,
+        }).then(res => res.json()).then(res => {
+          this.loading = false;
+          this.sortedItems = res;
+        })
+      }
+    },
   },
 };
 </script>

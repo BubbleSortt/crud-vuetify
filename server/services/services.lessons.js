@@ -1,5 +1,6 @@
 const sequelize = require('./connection');
 const { QueryTypes } = require('sequelize');
+const { prepareForIn } = require('../helpers');
 
 
 class Lessons {
@@ -29,6 +30,16 @@ class Lessons {
   delete = async (id) => {
     await sequelize.query(`DELETE FROM \`Предметы\` WHERE \`Предметы\`.\`id\` = ${id}`, { type: QueryTypes.DELETE });
     return id;
+  };
+
+  search = async ({ text }) => {
+    return await sequelize.query(`SELECT * FROM \`Предметы\` WHERE
+    \`id\` LIKE '%${text}%' OR 
+    \`Название_предмета\` LIKE '%${text}%'`, { type: QueryTypes.SELECT });
+  };
+
+  sort = async ({ sortBy, sortDesc, items }) => {
+    return await sequelize.query(`SELECT * FROM \`Предметы\` WHERE \`id\` IN ${prepareForIn(items)} ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
   };
 }
 
