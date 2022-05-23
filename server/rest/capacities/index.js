@@ -6,5 +6,7 @@ router.get('/', CapacitiesController.getCapacities)
 router.post('/delete', CapacitiesController.deleteCapacity)
 router.post('/create', CapacitiesController.createCapacity)
 router.post('/update', CapacitiesController.updateCapacity)
+router.post('/search', CapacitiesController.search)
+router.post('/sort', CapacitiesController.sort)
 
 module.exports = router;

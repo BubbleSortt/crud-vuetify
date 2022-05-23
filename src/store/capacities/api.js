@@ -27,6 +27,22 @@ class Capacities extends Api {
     },
     body: JSON.stringify({ id, hours, lessonId, teacherId, groupId }),
   })
+
+  search = ({ text }) => this.rest('capacities/search', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ text }),
+  })
+
+  sort = ({ sortBy, sortDesc, items }) => this.rest('capacities/sort', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sortBy, sortDesc, items }),
+  })
 }
 
 export default new Capacities();

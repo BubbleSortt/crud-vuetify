@@ -1,11 +1,18 @@
 const capacitiesModel = require('./../services/services.capacities')
 const { map, toNumber, get } = require('lodash');
 
+const DICTIONARY = {
+  id: 'id',
+  hours: 'кол-во_часов',
+  lessonId: 'id_предмета',
+  teacherId: 'id_преподавателя',
+  groupId: 'id_группы',
+}
+
 class CapacitiesController {
 
-  getCapacities = async (req, res) => {
-    let capacities = await capacitiesModel.getAll();
-    capacities = map(capacities, (capacity) => {
+  adapter = (capacities) => {
+    return map(capacities, (capacity) => {
       return {
         id: toNumber(get(capacity, 'id', '')),
         hours: toNumber(get(capacity, 'кол-во_часов', '')),
@@ -14,6 +21,11 @@ class CapacitiesController {
         groupId: toNumber(get(capacity, 'id_группы', '')),
       }
     })
+  }
+
+  getCapacities = async (req, res) => {
+    let capacities = await capacitiesModel.getAll();
+    capacities = this.adapter(capacities);
     res.send(capacities);
   }
 
@@ -31,6 +43,20 @@ class CapacitiesController {
     const { id } = req.body;
     const removedId = await capacitiesModel.delete(id)
     res.status(200).json({ id: removedId })
+  }
+
+  search = async (req, res) => {
+    const { text } = req.body;
+    let teachers = await capacitiesModel.search({ text });
+    teachers = this.adapter(teachers)
+    res.status(200).send(teachers);
+  }
+  sort = async (req, res) => {
+    let { sortBy, sortDesc, items } = req.body;
+    sortBy = DICTIONARY[sortBy];
+    let sorted = await capacitiesModel.sort({ sortBy, sortDesc, items });
+    sorted = this.adapter(sorted);
+    res.status(200).send(sorted);
   }
 }
 

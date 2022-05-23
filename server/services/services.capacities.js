@@ -1,5 +1,6 @@
 const sequelize = require('./connection');
 const { QueryTypes } = require('sequelize');
+const { prepareForIn } = require('../helpers');
 
 
 class Capacities {
@@ -38,6 +39,19 @@ class Capacities {
     await sequelize.query(`DELETE FROM \`Нагрузка\` WHERE \`Нагрузка\`.\`id\` = ${id}`, { type: QueryTypes.DELETE });
     return id;
   };
+
+  search = async ({ text }) => {
+    return await sequelize.query(`SELECT * FROM \`Нагрузка\` WHERE
+    \`id\` LIKE '%${text}%' OR 
+    \`кол-во_часов\` LIKE '%${text}%' OR
+    \`id_предмета\` LIKE '%${text}%' OR
+    \`id_преподавателя\` LIKE '%${text}%' OR
+    \`id_группы\` LIKE '%${text}%'`, { type: QueryTypes.SELECT });
+  }
+
+  sort = async ({ sortBy, sortDesc, items }) => {
+    return await sequelize.query(`SELECT * FROM \`Нагрузка\` WHERE \`id\` IN ${prepareForIn(items)} ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
+  }
 }
 
 module.exports = new Capacities();
