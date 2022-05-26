@@ -64,6 +64,7 @@ class Teachers {
   sort = async ({ sortBy, sortDesc, items }) => {
     return await sequelize.query(`SELECT * FROM \`Преподаватели\` WHERE \`id_Преподавателя\` IN ${prepareForIn(items)} ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
   }
+
 }
 
 module.exports = new Teachers();

@@ -19,6 +19,7 @@ class Lessons {
     return await sequelize.query(`SELECT * FROM \`Предметы\` ORDER BY ID DESC LIMIT 1`, { type: QueryTypes.SELECT });
   };
 
+  //UPDATE `Предметы` SET  `Название_предмета` = 'Test' WHERE `Предметы`.`id` = 9;
   update = async ({ id, name }) => {
     await sequelize.query(`UPDATE \`Предметы\` SET
     \`Название_предмета\` = '${name}'
