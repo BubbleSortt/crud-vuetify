@@ -8,8 +8,8 @@ const DICTIONARY = {
   patronymic: 'Отчество',
   rate: 'Ставка',
   totalHours: 'Общее_кол-во_часов',
-  postId: 'id_должности',
-  degreeId: 'id_ученой степени',
+  postId: 'Должность',
+  degreeId: 'Наименование_степени',
 }
 
 class TeachersController {
@@ -60,8 +60,8 @@ class TeachersController {
         patronymic: toString(get(teacher, 'Отчество', '')),
         rate: toNumber(get(teacher, 'Ставка', '')),
         totalHours: toNumber(get(teacher, 'Общее_кол-во_часов', '')),
-        postId: toNumber(get(teacher, 'id_должности', '')),
-        degreeId: toNumber(get(teacher, 'id_ученой степени', '')),
+        postId: toString(get(teacher, 'Должность', '')),
+        degreeId: toString(get(teacher, 'Наименование_степени', '')),
       }
     })
   }

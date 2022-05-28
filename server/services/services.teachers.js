@@ -5,7 +5,12 @@ const { prepareForIn } = require('../helpers');
 class Teachers {
 
   getAll = async () => {
-    return await sequelize.query('SELECT * FROM `Преподаватели`', { type: QueryTypes.SELECT });
+    return await sequelize.query(`SELECT
+       \`id_Преподавателя\`, \`Фамилия\`,\`Имя\`,\`Отчество\`,\`Ставка\`,\`Общее_кол-во_часов\`, \`Должность\`,\`Наименование_степени\` FROM \`Преподаватели\`
+     INNER JOIN \`Должности\` ON \`Преподаватели\`.\`id_должности\` = \`Должности\`.\`id должности\`
+     INNER JOIN \`Ученые степени\` ON \`Преподаватели\`.\`id_ученой степени\` = \`Ученые степени\`.\`id\``, {
+      type: QueryTypes.SELECT
+    });
   };
 
   create = async ({ name, surname, patronymic, rate, totalHours, postId, degreeId }) => {
@@ -50,19 +55,25 @@ class Teachers {
   };
 
   search = async ({ text }) => {
-    return await sequelize.query(`SELECT * FROM \`Преподаватели\` WHERE
-    \`id_Преподавателя\` LIKE '%${text}%' OR 
-    \`Имя\` LIKE '%${text}%' OR
-    \`Фамилия\` LIKE '%${text}%' OR
-    \`Отчество\` LIKE '%${text}%' OR
-    \`Ставка\` LIKE '%${text}%' OR
-    \`Общее_кол-во_часов\` LIKE '%${text}%' OR
-    \`id_должности\` LIKE '%${text}%' OR
-    \`id_ученой степени\` LIKE '%${text}%'`, { type: QueryTypes.SELECT });
+    return await sequelize.query(`SELECT 
+       \`id_Преподавателя\`, \`Фамилия\`, \`Имя\`, \`Отчество\`, \`Ставка\`, \`Общее_кол-во_часов\`, \`Должность\`,\`Наименование_степени\` FROM \`Преподаватели\`
+       INNER JOIN \`Должности\` ON \`Преподаватели\`.\`id_должности\` = \`Должности\`.\`id должности\`
+       INNER JOIN \`Ученые степени\` ON \`Преподаватели\`.\`id_ученой степени\` = \`Ученые степени\`.\`id\` WHERE
+      \`id_Преподавателя\` LIKE '%${text}%' OR 
+      \`Имя\` LIKE '%${text}%' OR
+      \`Фамилия\` LIKE '%${text}%' OR
+      \`Отчество\` LIKE '%${text}%' OR
+      \`Ставка\` LIKE '%${text}%' OR
+      \`Общее_кол-во_часов\` LIKE '%${text}%' OR
+      \`Должность\` LIKE '%${text}%' OR
+      \`Наименование_степени\` LIKE '%${text}%'`, { type: QueryTypes.SELECT });
   }
 
   sort = async ({ sortBy, sortDesc, items }) => {
-    return await sequelize.query(`SELECT * FROM \`Преподаватели\` WHERE \`id_Преподавателя\` IN ${prepareForIn(items)} ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
+    return await sequelize.query(`SELECT 
+       \`id_Преподавателя\`,\`Фамилия\`,\`Имя\`,\`Отчество\`,\`Ставка\`,\`Общее_кол-во_часов\`,\`Должность\`,\`Наименование_степени\`FROM \`Преподаватели\`
+       INNER JOIN \`Должности\`ON \`Преподаватели\`.\`id_должности\` = \`Должности\`.\`id должности\`
+       INNER JOIN \`Ученые степени\` ON \`Преподаватели\`.\`id_ученой степени\` = \`Ученые степени\`.\`id\` WHERE \`id_Преподавателя\` IN ${prepareForIn(items)} ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
   }
 
 }

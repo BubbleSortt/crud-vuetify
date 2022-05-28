@@ -18,8 +18,8 @@
           { text: 'Отчество', value: 'patronymic' },
           { text: 'Ставка', value: 'rate' },
           { text: 'Общее кол-во часов', value: 'totalHours' },
-          { text: 'id должности', value: 'postId' },
-          { text: 'id ученой степени', value: 'degreeId' },
+          { text: 'Должность', value: 'postId' },
+          { text: 'Ученая степень', value: 'degreeId' },
           { text: 'Control', value: 'control', align: 'center', },
         ]"
         :items='items'
