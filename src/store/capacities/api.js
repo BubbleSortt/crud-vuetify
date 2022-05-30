@@ -43,6 +43,15 @@ class Capacities extends Api {
     },
     body: JSON.stringify({ sortBy, sortDesc, items }),
   })
+
+  procedure = ({ lessonId, groupId, hours }) => this.rest('/capacities/procedure', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ lessonId, groupId, hours }),
+  })
+
 }
 
 export default new Capacities();

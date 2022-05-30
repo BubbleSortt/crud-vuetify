@@ -98,6 +98,11 @@ const routes = [
     component: () => import('@/views/QueryConsole.vue'),
   },
   {
+    path: '/procedure-test',
+    name: 'ProcedureTest',
+    component: () => import('@/views/ProcedureTest.vue'),
+  },
+  {
     path: '*',
     name: 'NotFound',
     component: () => import('@/views/StudentsList.vue'),

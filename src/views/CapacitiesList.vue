@@ -61,6 +61,16 @@
       </VBtn>
     </RouterLink>
 
+    <RouterLink :to="{ name: 'ProcedureTest' }" >
+      <VBtn
+        depressed
+        color="warning"
+        class="mt-7"
+      >
+        Тест процедуры
+      </VBtn>
+    </RouterLink>
+
     <VDialog v-model="dialogDelete" max-width="600px">
       <VCard class='text-center py-4'>
         <VCardTitle class="text-h5 justify-center mb-6">Вы действительно хотите удалить запись?</VCardTitle>

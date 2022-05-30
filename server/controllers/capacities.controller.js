@@ -58,6 +58,12 @@ class CapacitiesController {
     sorted = this.adapter(sorted);
     res.status(200).send(sorted);
   }
+
+  callProcedure = async (req, res) => {
+    const { lessonId, groupId, hours } = req.body;
+    const response = await capacitiesModel.callProcedure({ lessonId, groupId, hours });
+    res.status(200).send(response);
+  }
 }
 
 module.exports = new CapacitiesController();

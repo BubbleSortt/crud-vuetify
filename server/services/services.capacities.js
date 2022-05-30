@@ -52,6 +52,10 @@ class Capacities {
   sort = async ({ sortBy, sortDesc, items }) => {
     return await sequelize.query(`SELECT * FROM \`Нагрузка\` WHERE \`id\` IN ${prepareForIn(items)} ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
   }
+
+  callProcedure = async ({ lessonId, groupId, hours }) => {
+    return await sequelize.query(`call procedure`) //TODO вызвать процедуру
+  }
 }
 
 module.exports = new Capacities();

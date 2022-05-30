@@ -8,5 +8,6 @@ router.post('/create', CapacitiesController.createCapacity)
 router.post('/update', CapacitiesController.updateCapacity)
 router.post('/search', CapacitiesController.search)
 router.post('/sort', CapacitiesController.sort)
+router.post('/procedure', CapacitiesController.callProcedure)
 
 module.exports = router;

@@ -6,7 +6,8 @@ class Teachers {
 
   getAll = async () => {
     return await sequelize.query(`SELECT
-       \`id_Преподавателя\`, \`Фамилия\`,\`Имя\`,\`Отчество\`,\`Ставка\`,\`Общее_кол-во_часов\`, \`Должность\`,\`Наименование_степени\` FROM \`Преподаватели\`
+       \`id_Преподавателя\`, \`Фамилия\`,\`Имя\`,\`Отчество\`,\`Ставка\`,\`Общее_кол-во_часов\`, \`id_должности\`,
+       \`id_ученой степени\`, \`Должность\`,\`Наименование_степени\` FROM \`Преподаватели\`
      INNER JOIN \`Должности\` ON \`Преподаватели\`.\`id_должности\` = \`Должности\`.\`id должности\`
      INNER JOIN \`Ученые степени\` ON \`Преподаватели\`.\`id_ученой степени\` = \`Ученые степени\`.\`id\``, {
       type: QueryTypes.SELECT
@@ -36,17 +37,23 @@ class Teachers {
   };
 
   update = async ({ id, name, surname, patronymic, rate, totalHours, postId, degreeId }) => {
-    await sequelize.query(`UPDATE \`Преподаватели\` SET
-    \`Фамилия\` = '${surname}',
-    \`Имя\` = '${name}',
-    \`Отчество\` = '${patronymic}',
-    \`Ставка\` = '${rate}',
-    \`Общее_кол-во_часов\` = '${totalHours}',
-    \`id_должности\` = '${postId}',
-    \`id_ученой степени\` = '${degreeId}'
-     WHERE \`Преподаватели\`.\`id_Преподавателя\` = ${id}`, { type: QueryTypes.UPDATE })
+   try {
+     await sequelize.query(`UPDATE \`Преподаватели\` SET
+      \`Фамилия\` = '${surname}',
+      \`Имя\` = '${name}',
+      \`Отчество\` = '${patronymic}',
+      \`Ставка\` = '${rate}',
+      \`Общее_кол-во_часов\` = '${totalHours}',
+      \`id_должности\` = '${postId}',
+      \`id_ученой степени\` = '${degreeId}'
+       WHERE \`Преподаватели\`.\`id_Преподавателя\` = ${id}`, { type: QueryTypes.UPDATE })
 
-    return await sequelize.query(`SELECT * FROM \`Преподаватели\` WHERE \`id_Преподавателя\` = ${id}`, { type: QueryTypes.SELECT })
+     return await sequelize.query(`SELECT * FROM \`Преподаватели\` WHERE \`id_Преподавателя\` = ${id}`, { type: QueryTypes.SELECT })
+
+   } catch (e) {
+     console.log(e, 'error serivces');
+   }
+
   };
 
   delete = async (id) => {
