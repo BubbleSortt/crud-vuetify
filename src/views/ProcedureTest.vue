@@ -56,6 +56,16 @@
         </RouterLink>
       </VForm>
     </div>
+    <div class='mt-4' v-if='procedure.status'>
+      <VAlert
+        dense
+        outlined
+        dismissible
+        :type="procedure.status || 'info'"
+      >
+        <strong>{{ procedure.msg }}</strong>
+      </VAlert>
+    </div>
   </div>
 </template>
 <script>
@@ -69,6 +79,10 @@ export default {
         lessonId: 0,
         groupId: 0,
         hours: 0,
+      },
+      procedure: {
+        status: 0,
+        msg: '',
       },
       lessonIdRules: [v => !!v || 'Обязательное поле'],
       groupIdRules: [v => !!v || 'Обязательное поле'],
@@ -98,7 +112,12 @@ export default {
         groupId: this.form.groupId,
         hours: this.form.hours,
       });
-      console.log(res.json());
+      const { status, result: { msg } } = await res.json();
+
+      this.procedure = {
+        status,
+        msg,
+      }
     },
   },
   created() {

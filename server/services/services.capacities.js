@@ -54,7 +54,16 @@ class Capacities {
   }
 
   callProcedure = async ({ lessonId, groupId, hours }) => {
-    return await sequelize.query(`call procedure`) //TODO вызвать процедуру
+    try {
+      const response = await sequelize.query(`CALL set_capacity(:lessonId, :groupId, :hours)`, {replacements: {
+          lessonId: +lessonId,
+          groupId: +groupId,
+          hours: +hours,
+        }})
+      return { status: 'success', result: {msg: 'Все окей'} };
+    } catch (err) {
+      return {status: 'error', result: {msg: err.message}};
+    }
   }
 }
 

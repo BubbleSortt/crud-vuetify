@@ -105,7 +105,7 @@ export default {
     },
 
     ...mapGetters({
-      'itemById': 'teachers/itemById',
+      'itemById': 'capacities/itemById',
       'lessons': 'lessons/items',
       'teachers': 'teachers/items',
       'groups': 'groups/items',
@@ -148,6 +148,7 @@ export default {
   },
 
   created() {
+    this.$store.dispatch('capacities/fetchItems');
     this.$store.dispatch('teachers/fetchItems');
     this.$store.dispatch('lessons/fetchItems');
     this.$store.dispatch('groups/fetchItems');
