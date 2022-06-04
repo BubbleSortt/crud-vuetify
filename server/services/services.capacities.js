@@ -6,7 +6,11 @@ const { prepareForIn } = require('../helpers');
 class Capacities {
 
   getAll = async () => {
-    return await sequelize.query('SELECT * FROM `Нагрузка`', { type: QueryTypes.SELECT });
+    return await sequelize.query(`SELECT *, \`Название_предмета\`, \`Специальность\`, \`Фамилия\` FROM \`Нагрузка\`
+       INNER JOIN \`Предметы\`ON \`Нагрузка\`.\`id_предмета\` = \`Предметы\`.\`id\`
+       INNER JOIN \`Преподаватели\`ON \`Нагрузка\`.\`id_преподавателя\` = \`Преподаватели\`.\`id_Преподавателя\`
+       INNER JOIN \`Группы\`ON \`Нагрузка\`.\`id_группы\` = \`Группы\`.\`id\`
+       `, { type: QueryTypes.SELECT });
   };
 
   create = async ({ hours, lessonId, teacherId, groupId }) => {

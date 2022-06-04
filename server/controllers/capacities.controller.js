@@ -1,5 +1,5 @@
 const capacitiesModel = require('./../services/services.capacities')
-const { map, toNumber, get } = require('lodash');
+const { map, toNumber, get, toString } = require('lodash');
 
 const DICTIONARY = {
   id: 'id',
@@ -19,6 +19,9 @@ class CapacitiesController {
         lessonId: toNumber(get(capacity, 'id_предмета', '')),
         teacherId: toNumber(get(capacity, 'id_преподавателя', '')),
         groupId: toNumber(get(capacity, 'id_группы', '')),
+        groupName: toString(get(capacity, 'Специальность', '')),
+        teacherName: toString(get(capacity, 'Фамилия', '')),
+        lessonName: toString(get(capacity, 'Название_предмета', '')),
       }
     })
   }

@@ -14,9 +14,9 @@
         :headers="[
           { text: 'ID', value: 'id' },
           { text: 'Кол-во часов', value: 'hours' },
-          { text: 'id предмета', value: 'lessonId' },
-          { text: 'id преподавателя', value: 'teacherId' },
-          { text: 'id группы', value: 'groupId' },
+          { text: 'Предмет', value: 'lessonName' },
+          { text: 'Преподаватель', value: 'teacherName' },
+          { text: 'Группа', value: 'groupName' },
           { text: 'Управление', value: 'control', align: 'center', },
         ]"
         :items="items"
