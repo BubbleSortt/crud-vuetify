@@ -5,6 +5,7 @@ const { prepareForIn } = require('../helpers');
 
 class Capacities {
 
+
   getAll = async () => {
     return await sequelize.query(`SELECT *, \`Название_предмета\`, \`Специальность\`, \`Фамилия\` FROM \`Нагрузка\`
        INNER JOIN \`Предметы\`ON \`Нагрузка\`.\`id_предмета\` = \`Предметы\`.\`id\`
@@ -60,11 +61,14 @@ class Capacities {
   callProcedure = async ({ lessonId, groupId, hours }) => {
     try {
       const response = await sequelize.query(`CALL set_capacity(:lessonId, :groupId, :hours)`, {replacements: {
-          lessonId: +lessonId,
-          groupId: +groupId,
-          hours: +hours,
+          lessonId: lessonId,
+          groupId: groupId,
+          hours: hours,
         }})
-      return { status: 'success', result: {msg: 'Все окей'} };
+
+      const { msg } = response[0];
+      console.log(response, 'test');
+      return { status: 'info', result: msg };
     } catch (err) {
       return {status: 'error', result: {msg: err.message}};
     }

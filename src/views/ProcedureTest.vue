@@ -63,7 +63,7 @@
         dismissible
         :type="procedure.status || 'info'"
       >
-        <strong>{{ procedure.msg }}</strong>
+        <strong>{{ procedure.result }}</strong>
       </VAlert>
     </div>
   </div>
@@ -82,7 +82,7 @@ export default {
       },
       procedure: {
         status: 0,
-        msg: '',
+        result: '',
       },
       lessonIdRules: [v => !!v || 'Обязательное поле'],
       groupIdRules: [v => !!v || 'Обязательное поле'],
@@ -112,11 +112,11 @@ export default {
         groupId: this.form.groupId,
         hours: this.form.hours,
       });
-      const { status, result: { msg } } = await res.json();
+      const { status, result } = await res.json();
 
       this.procedure = {
         status,
-        msg,
+        result,
       }
     },
   },
