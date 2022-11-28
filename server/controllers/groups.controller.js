@@ -1,24 +1,16 @@
 const groupsModel = require('./../services/services.groups')
 const { map, toNumber, toString, get } = require('lodash');
 
-const DICTIONARY = {
-  id: 'id',
-  speciality: 'Специальность',
-  name: 'Название_группы',
-  leader: 'Фамилия_старосты',
-  year: 'Год_поступления',
-}
-
 class GroupsController {
 
   adapter = (groups) => {
     return map(groups, (group) => {
       return {
         id: toNumber(get(group, 'id', '')),
-        speciality: toString(get(group, 'Специальность', '')),
-        name: toString(get(group, 'Название_группы', '')),
-        leader: toString(get(group, 'Фамилия_старосты', '')),
-        year: toNumber(get(group, 'Год_поступления', ''))
+        speciality: toString(get(group, 'speciality', '')),
+        name: toString(get(group, 'name', '')),
+        leader: toString(get(group, 'leader', '')),
+        year: toNumber(get(group, 'year', ''))
       }
     })
   }
@@ -53,7 +45,6 @@ class GroupsController {
   }
   sort = async (req, res) => {
     let { sortBy, sortDesc, items } = req.body;
-    sortBy = DICTIONARY[sortBy];
     let sorted = await groupsModel.sort({ sortBy, sortDesc, items });
     sorted = this.adapter(sorted);
     res.status(200).send(sorted);

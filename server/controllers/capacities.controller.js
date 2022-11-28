@@ -15,10 +15,10 @@ class CapacitiesController {
     return map(capacities, (capacity) => {
       return {
         id: toNumber(get(capacity, 'id', '')),
-        hours: toNumber(get(capacity, 'кол-во_часов', '')),
-        lessonId: toNumber(get(capacity, 'id_предмета', '')),
-        teacherId: toNumber(get(capacity, 'id_преподавателя', '')),
-        groupId: toNumber(get(capacity, 'id_группы', '')),
+        hours: toNumber(get(capacity, 'hours', '')),
+        lessonId: toNumber(get(capacity, 'lessonId', '')),
+        teacherId: toNumber(get(capacity, 'teacherId', '')),
+        groupId: toNumber(get(capacity, 'groupId', '')),
         groupName: toString(get(capacity, 'Специальность', '')),
         teacherName: toString(get(capacity, 'Фамилия', '')),
         lessonName: toString(get(capacity, 'Название_предмета', '')),

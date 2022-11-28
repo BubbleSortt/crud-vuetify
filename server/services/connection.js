@@ -1,12 +1,12 @@
 const Sequelize = require('sequelize')
 
 const sequelize = new Sequelize(
-  'mydb',
-  'root',
-  'root',
+  'university_db',
+  'postgres',
+  '259647',
   {
-    dialect: 'mysql',
-    port: 8889,
+    dialect: 'postgres',
+    port: 5432,
   }
 )
 

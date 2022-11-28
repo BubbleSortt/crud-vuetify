@@ -11,8 +11,8 @@ class PostsController {
   adapter = (posts) => {
     return map(posts, (post) => {
       return {
-        id: toNumber(get(post, 'id должности', '')),
-        post: toString(get(post, 'Должность', '')),
+        id: toNumber(get(post, 'id', '')),
+        post: toString(get(post, 'post', '')),
       }
     })
   }

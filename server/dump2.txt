@@ -1,0 +1,203 @@
+CREATE TABLE groups
+(
+    id         serial primary key,
+    speciality varchar NOT NULL,
+    name       varchar NOT NULL,
+    leader     varchar NOT NULL,
+    year       integer NOT NULL
+);
+
+INSERT INTO groups (id, speciality, name, leader, year)
+VALUES (9, 'Математическое обеспечение и администрирование информационных систем', 'МОСб-191', 'Владимиров', 2019),
+       (10, 'Программная инженерия', 'ПИб-191', 'Асланян', 2019),
+       (11, 'Математическое обеспечение и администрирование информационных систем', 'МОСб-192', 'Петров', 2019),
+       (12, 'Информационная вычислительная техника', 'ИВТ-2019', 'Широбоков', 2019),
+       (13, 'Прикладная математика и информатика', 'ПМИб-2019', 'Зенин', 2019),
+       (14, 'Информационные системы и технологии', 'ИСТ-2019', 'Свиридов', 2019),
+       (15, 'Математика и компьютерные науки', 'МКН-2019', 'Айвазян', 2019),
+       (16, 'Прикладная информатика', 'ПРИ-2019', 'Охотников', 2019),
+       (17, 'Программная инженерия', 'ПИ-2020', 'Кузьменко', 2020),
+       (18, 'Информационная вычислительная техника', 'ИВТ-2020', 'Чижикова', 2020),
+       (28, 'dfhd', 'fhfdh', 'dfhd', 46),
+       (32, 'dgg', 'sdg', 'sdgg', 355),
+       (33, 'sdg35l', 'sdgkp', 'sdgl', 835),
+       (36, 'Какая-то новая группа', 'Название нвовой группы', 'j', 11);
+
+
+CREATE TABLE posts
+(
+    id   serial primary key,
+    post varchar NOT NULL
+);
+
+INSERT INTO posts (id, post)
+VALUES (1, 'Старший преподаватель'),
+       (2, 'Преподаватель'),
+       (3, 'Заведующий кафедрой'),
+       (4, 'Ассистент'),
+       (5, 'Лаборант'),
+       (7, 'sdgddd');
+
+
+CREATE TABLE capacities
+(
+    id        serial primary key,
+    hours     integer NOT NULL,
+    lessonId  integer NOT NULL,
+    teacherId integer NOT NULL,
+    groupId   integer NOT NULL
+);
+INSERT INTO capacities (id, hours, lessonId, teacherId, groupId)
+VALUES (1, 35, 1, 1, 12),
+       (2, 140, 2, 9, 9),
+       (3, 140, 3, 2, 10),
+       (4, 170, 4, 3, 11),
+       (5, 130, 5, 4, 12),
+       (6, 70, 6, 5, 13),
+       (7, 140, 7, 6, 14),
+       (8, 20, 8, 7, 14),
+       (9, 100, 8, 7, 16),
+       (10, 40, 9, 8, 17),
+       (11, 60, 10, 10, 15),
+       (12, 24, 2, 8, 11),
+       (14, 2, 8, 7, 14),
+       (15, 3, 8, 7, 14),
+       (19, 1, 1, 8, 9),
+       (22, 1, 1, 8, 9),
+       (25, 2, 1, 1, 9),
+       (30, 1, 1, 8, 9),
+       (31, 1, 2, 8, 9),
+       (32, 1, 2, 8, 9),
+       (33, 1, 2, 8, 9),
+       (34, 1, 2, 8, 9),
+       (35, 1, 2, 8, 9),
+       (36, 1, 2, 8, 9),
+       (37, 1, 3, 8, 10),
+       (38, 1, 1, 8, 9),
+       (39, 1, 2, 8, 9),
+       (40, 1, 2, 8, 9);
+
+
+CREATE TABLE lessons
+(
+    id   serial primary key,
+    name varchar NOT NULL
+);
+
+INSERT INTO lessons (id, name)
+VALUES (1, 'Геометрия'),
+       (2, 'Базы данных'),
+       (3, 'Компьютерная графика'),
+       (4, 'Алгоритмы'),
+       (5, 'Численные методы'),
+       (6, 'Дифференциальные уравнения'),
+       (7, 'Веб-разработка'),
+       (8, 'Физкультура'),
+       (9, 'Test'),
+       (10, 'Программирование'),
+       (11, 'nTC'),
+       (12, 'test'),
+       (13, 'test'),
+       (14, 'DGGDG'),
+       (15, 'DGGDG'),
+       (16, 'DGGDG'),
+       (17, 'DGGDG'),
+       (18, 'dg'),
+       (19, 'dg'),
+       (20, 'dg'),
+       (21, 'dg'),
+       (22, 'dg'),
+       (23, 'dg'),
+       (24, 'djjg'),
+       (25, 'djjg'),
+       (26, 'djjg'),
+       (27, 'djjg'),
+       (28, 'new'),
+       (29, 'new'),
+       (30, 'new'),
+       (31, 'вп'),
+       (32, 'dsgd'),
+       (33, 'dg'),
+       (34, 'sdg'),
+       (36, 'Test'),
+       (38, 'Test');
+
+CREATE TABLE teachers
+(
+    id         serial primary key,
+    surname    varchar       NOT NULL,
+    name       varchar       NOT NULL,
+    patronymic varchar       NOT NULL,
+    rate       decimal(3, 2) NOT NULL,
+    totalHours integer       NOT NULL,
+    degreeId   integer       NOT NULL,
+    postId     integer       NOT NULL
+);
+
+INSERT INTO teachers (id, surname, name, patronymic, rate, totalHours, postId, degreeId)
+VALUES (1, 'Полубоярова', 'Наталья', 'Михайловна', '1.00', 120, 2, 6),
+       (2, 'Штельмах', 'Татьяна', 'Владимировна', '1.00', 180, 1, 7),
+       (3, 'Светлов', 'Андрей', 'Владимирович', '1.00', 135, 2, 6),
+       (4, 'Помельников', 'Юрий', 'Вячеславович', '0.50', 75, 2, 2),
+       (5, 'Овчинников', 'Степан', 'Александрович', '0.75', 40, 2, 6),
+       (6, 'Кондрашов', 'Александр', 'Николаевич', '1.00', 155, 2, 1),
+       (7, 'Клячин', 'Владимир', 'Александрович', '1.00', 125, 3, 1),
+       (8, 'Григорьева', 'Елена', 'Григорьевна', '1.00', 160, 1, 3),
+       (9, 'Чебаненко', 'Никита', 'Алексеевич', '1.00', 170, 1, 5),
+       (10, 'Гордеева', 'Алексей', 'Юрьевич', '1.25', 60, 5, 4),
+       (11, '1', '12', '1', '1.00', 1, 1, 1),
+       (12, 'Бычкин', 'Александр', 'Вастльевич', '1.00', 190, 2, 3);
+
+create table couples
+(
+    id         serial primary key,
+    audience   varchar NOT NULL,
+    time       date    NOT NULL,
+    capacityId integer NOT NULL
+);
+
+INSERT INTO couples (id, audience, time, capacityId)
+VALUES
+    (1, '4-07А', '2022-04-13 13:40:00', 1),
+    (2, '3-02А', '2022-03-14 10:10:00', 2),
+    (3, '4-06А', '2022-03-16 08:30:00', 3),
+    (4, '3-06А', '2022-03-02 15:10:00', 4),
+    (5, '3-07А', '2022-04-06 12:00:00', 5),
+    (6, '3-12А', '2022-04-01 10:10:00', 6),
+    (7, '3-02Б', '2022-04-09 15:20:00', 8),
+    (8, '3-08А', '2022-04-12 12:10:00', 8),
+    (9, '3-08А', '2022-04-12 17:00:00', 9),
+    (10, '3-08Б', '2022-04-11 13:40:00', 10);
+
+CREATE TABLE degrees
+(
+    id serial primary key,
+    name varchar NOT NULL
+);
+
+INSERT INTO degrees (id, name)
+VALUES
+    (1, 'Доктор наук'),
+    (2, 'Магистр'),
+    (3, 'Аспирант'),
+    (4, 'Бакалавр'),
+    (5, 'Кандидат доктора наук'),
+    (6, 'Доцент'),
+    (7, 'Отсутствует');
+
+ALTER TABLE capacities
+    ADD CONSTRAINT fk_capacities_groups1 FOREIGN KEY (groupId) REFERENCES groups (id) ON UPDATE CASCADE,
+    ADD CONSTRAINT fk_capacities_lessons1 FOREIGN KEY (lessonId) REFERENCES lessons (id) ON
+        UPDATE CASCADE,
+    ADD CONSTRAINT fk_capacities_teachers1 FOREIGN KEY (teacherId) REFERENCES teachers (id)
+        ON
+            UPDATE CASCADE;
+
+ALTER TABLE teachers
+    ADD CONSTRAINT fk_teachers_posts1 FOREIGN KEY (postId) REFERENCES posts (id) ON UPDATE CASCADE,
+    ADD CONSTRAINT fk_teachers_degrees1 FOREIGN KEY (degreeId) REFERENCES degrees (id) ON
+UPDATE CASCADE;
+
+ALTER TABLE couples
+    ADD CONSTRAINT fk_couples_capacities1 FOREIGN KEY (capacityId) REFERENCES capacities (id) ON
+        UPDATE CASCADE;
