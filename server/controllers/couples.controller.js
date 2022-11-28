@@ -1,12 +1,6 @@
 const couplesModel = require('./../services/services.couples')
 const { map, toNumber, toString, get } = require('lodash');
 
-const DICTIONARY = {
-  id: 'id',
-  audience: 'Аудитория',
-  time: 'Время',
-  capacityId: 'Нагрузка_id',
-}
 
 class CouplesController {
 
@@ -14,9 +8,9 @@ class CouplesController {
     return map(couples, (degree) => {
       return {
         id: toNumber(get(degree, 'id', '')),
-        audience: toString(get(degree, 'Аудитория', '')),
-        time: new Date(get(degree, 'Время', '')).toISOString().replace('Z', ''),
-        capacityId: toNumber(get(degree, 'Нагрузка_id', '')),
+        audience: toString(get(degree, 'audience', '')),
+        time: new Date(get(degree, 'time', '')).toISOString().replace('Z', ''),
+        capacityId: toNumber(get(degree, 'capacityId', '')),
       }
     })
   }
@@ -51,7 +45,6 @@ class CouplesController {
   }
   sort = async (req, res) => {
     let { sortBy, sortDesc, items } = req.body;
-    sortBy = DICTIONARY[sortBy];
     let sorted = await couplesModel.sort({ sortBy, sortDesc, items });
     sorted = this.adapter(sorted);
     res.status(200).send(sorted);

@@ -6,47 +6,47 @@ const { prepareForIn } = require('../helpers');
 class Couples {
 
   getAll = async () => {
-    return await sequelize.query('SELECT * FROM `Проведенные пары`', { type: QueryTypes.SELECT });
+    return await sequelize.query('SELECT * FROM couples;', { type: QueryTypes.SELECT });
   };
 
   create = async ({ audience, time, capacityId }) => {
-    await sequelize.query(`INSERT INTO \`Проведенные пары\`(
-    \`id\`,
-    \`Аудитория\`,
-    \`Время\`,
-    \`Нагрузка_id\`) VALUES (
-    NULL,
+    await sequelize.query(`INSERT INTO couples(
+    id,
+    audience,
+    time,
+    capacityid) VALUES (
+    default,
     '${audience}',
     '${time}',
     '${capacityId}')`, { type: QueryTypes.INSERT });
 
-    return await sequelize.query(`SELECT * FROM \`Проведенные пары\` ORDER BY ID DESC LIMIT 1`, { type: QueryTypes.SELECT });
+    return await sequelize.query(`SELECT * FROM couples ORDER BY ID DESC LIMIT 1;`, { type: QueryTypes.SELECT });
   };
 
   update = async ({ id, audience, time, capacityId }) => {
-    await sequelize.query(`UPDATE \`Проведенные пары\` SET
-    \`Аудитория\` = '${audience}',
-    \`Время\` = '${time}',
-    \`Нагрузка_id\` = '${capacityId}' WHERE \`Проведенные пары\`.\`id\` = ${id};`, { type: QueryTypes.UPDATE });
+    await sequelize.query(`UPDATE couples SET
+    audience = '${audience}',
+    time = '${time}',
+    capacityid = '${capacityId}' WHERE id = ${id};`, { type: QueryTypes.UPDATE });
 
-    return await sequelize.query(`SELECT * FROM \`Проведенные пары\` WHERE \`id\` = ${id}`, { type: QueryTypes.SELECT })
+    return await sequelize.query(`SELECT * FROM couples WHERE id = ${id}`, { type: QueryTypes.SELECT });
   };
 
   delete = async (id) => {
-    await sequelize.query(`DELETE FROM \`Проведенные пары\` WHERE \`Проведенные пары\`.\`id\` = ${id}`, { type: QueryTypes.DELETE });
+    await sequelize.query(`DELETE FROM couples WHERE id = ${id};`, { type: QueryTypes.DELETE });
     return id;
   };
 
   search = async ({ text }) => {
-    return await sequelize.query(`SELECT * FROM \`Проведенные пары\` WHERE
-    \`id\` LIKE '%${text}%' OR 
-    \`Аудитория\` LIKE '%${text}%' OR
-    \`Время\` LIKE '%${text}%' OR
-    \`Нагрузка_id\` LIKE '%${text}%'`, { type: QueryTypes.SELECT });
+    return await sequelize.query(`SELECT * FROM couples WHERE
+    id LIKE '%${text}%' OR 
+    audience LIKE '%${text}%' OR
+    time LIKE '%${text}%' OR
+    capacityid LIKE '%${text}%'`, { type: QueryTypes.SELECT });
   }
 
   sort = async ({ sortBy, sortDesc, items }) => {
-    return await sequelize.query(`SELECT * FROM \`Проведенные пары\` WHERE \`id\` IN ${prepareForIn(items)} ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
+    return await sequelize.query(`SELECT * FROM couples WHERE id IN ${prepareForIn(items)} ORDER BY ${sortBy} ${sortDesc}`, { type: QueryTypes.SELECT });
   }
 }
 
