@@ -1,18 +1,13 @@
 const lessonsModel = require('./../services/services.lessons')
 const { map, toNumber, toString, get } = require('lodash');
 
-const DICTIONARY = {
-  id: 'id',
-  name: 'Название_предмета',
-}
-
 class LessonsController {
 
   adapter = (posts) => {
     return map(posts, (post) => {
       return {
         id: toNumber(get(post, 'id', '')),
-        name: toString(get(post, 'Название_предмета', '')),
+        name: toString(get(post, 'name', '')),
       }
     })
   }
@@ -47,7 +42,6 @@ class LessonsController {
   }
   sort = async (req, res) => {
     let { sortBy, sortDesc, items } = req.body;
-    sortBy = DICTIONARY[sortBy];
     let sorted = await lessonsModel.sort({ sortBy, sortDesc, items });
     sorted = this.adapter(sorted);
     res.status(200).send(sorted);

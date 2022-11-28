@@ -6,41 +6,41 @@ const { prepareForIn } = require('../helpers');
 class Lessons {
 
   getAll = async () => {
-    return await sequelize.query('SELECT * FROM `Предметы`', { type: QueryTypes.SELECT });
+    return await sequelize.query('SELECT * FROM lessons', { type: QueryTypes.SELECT });
   };
 
   create = async ({ name }) => {
-    await sequelize.query(`INSERT INTO \`Предметы\`(
-    \`id\`,
-    \`Название_предмета\`) VALUES (
-    NULL,
-    '${name}')`, { type: QueryTypes.INSERT });
+    await sequelize.query(`INSERT INTO lessons(
+    id,
+    name) VALUES (
+    default,
+    '${name}');`, { type: QueryTypes.INSERT });
 
-    return await sequelize.query(`SELECT * FROM \`Предметы\` ORDER BY ID DESC LIMIT 1`, { type: QueryTypes.SELECT });
+    return await sequelize.query(`SELECT * FROM lessons ORDER BY ID DESC LIMIT 1`, { type: QueryTypes.SELECT });
   };
 
-  //UPDATE `Предметы` SET  `Название_предмета` = 'Test' WHERE `Предметы`.`id` = 9;
+  //UPDATE lessons SET  `Название_предмета` = 'Test' WHERE lessons.`id` = 9;
   update = async ({ id, name }) => {
-    await sequelize.query(`UPDATE \`Предметы\` SET
-    \`Название_предмета\` = '${name}'
-     WHERE \`Предметы\`.\`id\` = ${id};`, { type: QueryTypes.UPDATE })
+    await sequelize.query(`UPDATE lessons SET
+     name = '${name}'
+     WHERE id = ${id};`, { type: QueryTypes.UPDATE })
 
-    return await sequelize.query(`SELECT * FROM \`Предметы\` WHERE \`id\` = ${id}`, { type: QueryTypes.SELECT })
+    return await sequelize.query(`SELECT * FROM lessons WHERE id = ${id}`, { type: QueryTypes.SELECT })
   };
 
   delete = async (id) => {
-    await sequelize.query(`DELETE FROM \`Предметы\` WHERE \`Предметы\`.\`id\` = ${id}`, { type: QueryTypes.DELETE });
+    await sequelize.query(`DELETE FROM lessons WHERE id = ${id}`, { type: QueryTypes.DELETE });
     return id;
   };
 
   search = async ({ text }) => {
-    return await sequelize.query(`SELECT * FROM \`Предметы\` WHERE
-    \`id\` LIKE '%${text}%' OR 
-    \`Название_предмета\` LIKE '%${text}%'`, { type: QueryTypes.SELECT });
+    return await sequelize.query(`SELECT * FROM lessons WHERE
+    id LIKE '%${text}%' OR 
+    name LIKE '%${text}%'`, { type: QueryTypes.SELECT });
   };
 
   sort = async ({ sortBy, sortDesc, items }) => {
-    return await sequelize.query(`SELECT * FROM \`Предметы\` WHERE \`id\` IN ${prepareForIn(items)} ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
+    return await sequelize.query(`SELECT * FROM lessons WHERE \`id\` IN ${prepareForIn(items)} ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
   };
 }
 
