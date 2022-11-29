@@ -5,48 +5,47 @@ const { prepareForIn } = require('../helpers');
 
 class Capacities {
 
-
   getAll = async () => {
-    return await sequelize.query(`SELECT *, \`Название_предмета\`, \`Специальность\`, \`Фамилия\` FROM \`Нагрузка\`
-       INNER JOIN \`Предметы\`ON \`Нагрузка\`.\`id_предмета\` = \`Предметы\`.\`id\`
-       INNER JOIN \`Преподаватели\`ON \`Нагрузка\`.\`id_преподавателя\` = \`Преподаватели\`.\`id_Преподавателя\`
-       INNER JOIN \`Группы\`ON \`Нагрузка\`.\`id_группы\` = \`Группы\`.\`id\`
-       `, { type: QueryTypes.SELECT });
+    return await sequelize.query(`SELECT *, capacities.id as id, lessons.name as lessonName, groups.name as groupName, teachers.surname as teacherName FROM capacities
+      INNER JOIN lessons ON capacities.lessonId = lessons.id
+      INNER JOIN teachers ON capacities.teacherId = teachers.id
+      INNER JOIN groups ON capacities.groupId = groups.id order by capacities.id;`, { type: QueryTypes.SELECT });
   };
 
   create = async ({ hours, lessonId, teacherId, groupId }) => {
-    await sequelize.query(`INSERT INTO \`Нагрузка\`(
-    \`id\`,
-    \`кол-во_часов\`,
-    \`id_предмета\`,
-    \`id_преподавателя\`,
-    \`id_группы\`) VALUES (
-    NULL,
+    await sequelize.query(`INSERT INTO capacities (
+    id,
+    hours,
+    lessonid,
+    teacherid,
+    groupid
+        ) VALUES (
+    default,
     '${hours}',
     '${lessonId}',
     '${teacherId}',
-    '${groupId}')`, { type: QueryTypes.INSERT });
+    '${groupId}');`, { type: QueryTypes.INSERT });
 
-    return await sequelize.query(`SELECT * FROM \`Нагрузка\` ORDER BY ID DESC LIMIT 1`, { type: QueryTypes.SELECT });
+    return await sequelize.query(`SELECT * FROM capacities ORDER BY ID DESC LIMIT 1;`, { type: QueryTypes.SELECT });
   };
 
   update = async ({ id, hours, lessonId, teacherId, groupId }) => {
-    await sequelize.query(`UPDATE \`Нагрузка\` SET
-    \`кол-во_часов\` = '${hours}',
-    \`id_предмета\` = '${lessonId}',
-    \`id_преподавателя\` = '${teacherId}',
-    \`id_группы\` = '${groupId}' WHERE \`Нагрузка\`.\`id\` = ${id};`, { type: QueryTypes.UPDATE });
+    await sequelize.query(`UPDATE capacities SET
+    hours = '${hours}',
+    lessonid = '${lessonId}',
+    teacherid = '${teacherId}',
+    groupid = '${groupId}' WHERE id = ${id};`, { type: QueryTypes.UPDATE });
 
-    return await sequelize.query(`SELECT * FROM \`Нагрузка\` WHERE \`id\` = ${id}`, { type: QueryTypes.SELECT })
+    return await sequelize.query(`SELECT * FROM capacities WHERE id = ${id}`, { type: QueryTypes.SELECT })
   };
 
   delete = async (id) => {
-    await sequelize.query(`DELETE FROM \`Нагрузка\` WHERE \`Нагрузка\`.\`id\` = ${id}`, { type: QueryTypes.DELETE });
+    await sequelize.query(`DELETE FROM capacities WHERE id = ${id};`, { type: QueryTypes.DELETE });
     return id;
   };
 
   search = async ({ text }) => {
-    return await sequelize.query(`SELECT * FROM \`Нагрузка\` WHERE
+    return await sequelize.query(`SELECT * FROM capacities WHERE
     \`id\` LIKE '%${text}%' OR 
     \`кол-во_часов\` LIKE '%${text}%' OR
     \`id_предмета\` LIKE '%${text}%' OR
@@ -55,7 +54,7 @@ class Capacities {
   }
 
   sort = async ({ sortBy, sortDesc, items }) => {
-    return await sequelize.query(`SELECT * FROM \`Нагрузка\` WHERE \`id\` IN ${prepareForIn(items)} ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
+    return await sequelize.query(`SELECT * FROM capacities WHERE id IN ${prepareForIn(items)} ORDER BY ${sortBy} ${sortDesc}`, { type: QueryTypes.SELECT });
   }
 
   callProcedure = async ({ lessonId, groupId, hours }) => {
@@ -67,7 +66,6 @@ class Capacities {
         }})
 
       const { msg } = response[0];
-      console.log(response, 'test');
       return { status: 'info', result: msg };
     } catch (err) {
       return {status: 'error', result: {msg: err.message}};

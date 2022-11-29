@@ -16,12 +16,12 @@ class CapacitiesController {
       return {
         id: toNumber(get(capacity, 'id', '')),
         hours: toNumber(get(capacity, 'hours', '')),
-        lessonId: toNumber(get(capacity, 'lessonId', '')),
-        teacherId: toNumber(get(capacity, 'teacherId', '')),
-        groupId: toNumber(get(capacity, 'groupId', '')),
-        groupName: toString(get(capacity, 'Специальность', '')),
-        teacherName: toString(get(capacity, 'Фамилия', '')),
-        lessonName: toString(get(capacity, 'Название_предмета', '')),
+        lessonId: toNumber(get(capacity, 'lessonid', '')),
+        teacherId: toNumber(get(capacity, 'teacherid', '')),
+        groupId: toNumber(get(capacity, 'groupid', '')),
+        groupName: toString(get(capacity, 'groupname', '')),
+        teacherName: toString(get(capacity, 'teachername', '')),
+        lessonName: toString(get(capacity, 'lessonname', '')),
       }
     })
   }
@@ -56,7 +56,6 @@ class CapacitiesController {
   }
   sort = async (req, res) => {
     let { sortBy, sortDesc, items } = req.body;
-    sortBy = DICTIONARY[sortBy];
     let sorted = await capacitiesModel.sort({ sortBy, sortDesc, items });
     sorted = this.adapter(sorted);
     res.status(200).send(sorted);
