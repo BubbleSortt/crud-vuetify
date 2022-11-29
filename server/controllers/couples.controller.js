@@ -10,7 +10,7 @@ class CouplesController {
         id: toNumber(get(degree, 'id', '')),
         audience: toString(get(degree, 'audience', '')),
         time: new Date(get(degree, 'time', '')).toISOString().replace('Z', ''),
-        capacityId: toNumber(get(degree, 'capacityId', '')),
+        capacityId: toNumber(get(degree, 'capacityid', '')),
       }
     })
   }
