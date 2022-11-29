@@ -5,25 +5,25 @@ const { prepareForIn } = require('../helpers');
 class Teachers {
 
   getAll = async () => {
-    return await sequelize.query(`SELECT
-       *, \`Должность\`,\`Наименование_степени\` FROM \`Преподаватели\`
-     INNER JOIN \`Должности\` ON \`Преподаватели\`.\`id_должности\` = \`Должности\`.\`id должности\`
-     INNER JOIN \`Ученые степени\` ON \`Преподаватели\`.\`id_ученой степени\` = \`Ученые степени\`.\`id\``, {
+    return await sequelize.query(`SELECT *, teachers.id as id, teachers.name as name, post as postName, degrees.name as degreeName FROM teachers
+        INNER JOIN posts ON teachers.postid = posts.id
+        INNER JOIN degrees ON teachers.degreeid = degrees.id;`, {
       type: QueryTypes.SELECT
     });
   };
 
   create = async ({ name, surname, patronymic, rate, totalHours, postId, degreeId }) => {
-    await sequelize.query(`INSERT INTO \`Преподаватели\`(
-    \`id_Преподавателя\`,
-    \`Фамилия\`,
-    \`Имя\`,
-    \`Отчество\`,
-    \`Ставка\`,
-    \`Общее_кол-во_часов\`,
-    \`id_должности\`,
-    \`id_ученой степени\`) VALUES (
-    NULL,
+    await sequelize.query(`INSERT INTO teachers(
+    id,
+    surname,
+    name,
+    patronymic,
+    rate,
+    totalhours,
+    degreeid,
+    postid
+    ) VALUES (
+    default,
     '${surname}',
     '${name}',
     '${patronymic}',
@@ -32,22 +32,22 @@ class Teachers {
     '${postId}',
     '${degreeId}')`, { type: QueryTypes.INSERT });
 
-    return await sequelize.query(`SELECT * FROM \`Преподаватели\` ORDER BY ID DESC LIMIT 1`, { type: QueryTypes.SELECT });
+    return await sequelize.query(`SELECT * FROM teachers ORDER BY ID DESC LIMIT 1`, { type: QueryTypes.SELECT });
   };
 
   update = async ({ id, name, surname, patronymic, rate, totalHours, postId, degreeId }) => {
    try {
-     await sequelize.query(`UPDATE \`Преподаватели\` SET
-      \`Фамилия\` = '${surname}',
-      \`Имя\` = '${name}',
-      \`Отчество\` = '${patronymic}',
-      \`Ставка\` = '${rate}',
-      \`Общее_кол-во_часов\` = '${totalHours}',
-      \`id_должности\` = '${postId}',
-      \`id_ученой степени\` = '${degreeId}'
-       WHERE \`Преподаватели\`.\`id_Преподавателя\` = ${id}`, { type: QueryTypes.UPDATE })
+     await sequelize.query(`UPDATE teachers SET
+        surname = '${surname}',
+        name = '${name}',
+        patronymic = '${patronymic}',
+        rate = '${rate}',
+        totalhours = '${totalHours}',
+        degreeid = '${degreeId}',
+        postid = '${postId}'
+       WHERE teachers.id = ${id}`, { type: QueryTypes.UPDATE })
 
-     return await sequelize.query(`SELECT * FROM \`Преподаватели\` WHERE \`id_Преподавателя\` = ${id}`, { type: QueryTypes.SELECT })
+     return await sequelize.query(`SELECT * FROM teachers WHERE id = ${id}`, { type: QueryTypes.SELECT })
 
    } catch (e) {
      console.log(e, 'error serivces');
@@ -56,15 +56,14 @@ class Teachers {
   };
 
   delete = async (id) => {
-    await sequelize.query(`DELETE FROM \`Преподаватели\` WHERE \`Преподаватели\`.\`id_Преподавателя\` = ${id}`, { type: QueryTypes.DELETE });
+    await sequelize.query(`DELETE FROM teachers WHERE id = ${id}`, { type: QueryTypes.DELETE });
     return id;
   };
 
   search = async ({ text }) => {
-    return await sequelize.query(`SELECT 
-       \`id_Преподавателя\`, \`Фамилия\`, \`Имя\`, \`Отчество\`, \`Ставка\`, \`Общее_кол-во_часов\`, \`Должность\`,\`Наименование_степени\` FROM \`Преподаватели\`
-       INNER JOIN \`Должности\` ON \`Преподаватели\`.\`id_должности\` = \`Должности\`.\`id должности\`
-       INNER JOIN \`Ученые степени\` ON \`Преподаватели\`.\`id_ученой степени\` = \`Ученые степени\`.\`id\` WHERE
+    return await sequelize.query(`SELECT teachers.id as id, surname, patronymic, rate, totalhours, teachers.name as name, post as postName, degrees.name as degreeName FROM teachers
+     INNER JOIN posts ON teachers.postid = posts.id
+     INNER JOIN degrees ON teachers.degreeid = degrees.id WHERE
       \`id_Преподавателя\` LIKE '%${text}%' OR 
       \`Имя\` LIKE '%${text}%' OR
       \`Фамилия\` LIKE '%${text}%' OR
@@ -77,9 +76,9 @@ class Teachers {
 
   sort = async ({ sortBy, sortDesc, items }) => {
     return await sequelize.query(`SELECT 
-       \`id_Преподавателя\`,\`Фамилия\`,\`Имя\`,\`Отчество\`,\`Ставка\`,\`Общее_кол-во_часов\`,\`Должность\`,\`Наименование_степени\`FROM \`Преподаватели\`
-       INNER JOIN \`Должности\`ON \`Преподаватели\`.\`id_должности\` = \`Должности\`.\`id должности\`
-       INNER JOIN \`Ученые степени\` ON \`Преподаватели\`.\`id_ученой степени\` = \`Ученые степени\`.\`id\` WHERE \`id_Преподавателя\` IN ${prepareForIn(items)} ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
+       teachers.id as id, surname, teachers.name as name, patronymic, rate, totalhours, post as postName, degrees.name as degreeName FROM teachers
+       INNER JOIN posts ON teachers.postid = posts.id
+       INNER JOIN degrees ON teachers.degreeid = degrees.id WHERE teachers.id IN ${prepareForIn(items)} ORDER BY ${sortBy} ${sortDesc}`, { type: QueryTypes.SELECT });
   }
 
 }

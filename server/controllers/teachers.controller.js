@@ -1,18 +1,6 @@
 const teachersModel = require('./../services/services.teachers')
 const { map, toNumber, toString, get } = require('lodash');
 
-const DICTIONARY = {
-  id: 'id_Преподавателя',
-  surname: 'Фамилия',
-  name: 'Имя',
-  patronymic: 'Отчество',
-  rate: 'Ставка',
-  totalHours: 'Общее_кол-во_часов',
-  postId: 'id_должности',
-  degreeId: 'id_ученой степени',
-  post: 'Должность',
-  degree: 'Наименование_степени'
-}
 
 class TeachersController {
 
@@ -47,7 +35,6 @@ class TeachersController {
   }
   sort = async (req, res) => {
     let { sortBy, sortDesc, items } = req.body;
-    sortBy = DICTIONARY[sortBy];
     let sorted = await teachersModel.sort({ sortBy, sortDesc, items });
     sorted = this.adapter(sorted);
     res.status(200).send(sorted);
@@ -56,16 +43,16 @@ class TeachersController {
   adapter = (teachers) => {
     return map(teachers, (teacher) => {
       return {
-        id: toNumber(get(teacher, 'id_Преподавателя', '')),
-        surname: toString(get(teacher, 'Фамилия', '')),
-        name: toString(get(teacher, 'Имя', '')),
-        patronymic: toString(get(teacher, 'Отчество', '')),
-        rate: toNumber(get(teacher, 'Ставка', '')),
-        totalHours: toNumber(get(teacher, 'Общее_кол-во_часов', '')),
-        postId: toNumber(get(teacher, 'id_должности', '')),
-        degreeId: toNumber(get(teacher, 'id_ученой степени', '')),
-        degree: toString(get(teacher, 'Наименование_степени', '')),
-        post: toString(get(teacher, 'Должность', '')),
+        id: toNumber(get(teacher, 'id', '')),
+        surname: toString(get(teacher, 'surname', '')),
+        name: toString(get(teacher, 'name', '')),
+        patronymic: toString(get(teacher, 'patronymic', '')),
+        rate: toNumber(get(teacher, 'rate', '')),
+        totalHours: toNumber(get(teacher, 'totalhours', '')),
+        postId: toNumber(get(teacher, 'postid', '')),
+        degreeId: toNumber(get(teacher, 'degreeid', '')),
+        degree: toString(get(teacher, 'degreename', '')),
+        post: toString(get(teacher, 'post', '')),
       }
     })
   }
