@@ -1,6 +1,5 @@
 const sequelize = require('./connection');
 const { QueryTypes } = require('sequelize');
-const { prepareForIn } = require('../helpers');
 
 class Groups {
 
@@ -41,15 +40,15 @@ class Groups {
 
   search = async ({ text }) => {
     return await sequelize.query(`SELECT * FROM Groups WHERE
-    id LIKE '%${text}%' OR 
-    speciality LIKE '%${text}%' OR
-    name LIKE '%${text}%' OR
-    leader LIKE '%${text}%' OR
-    year LIKE '%${text}%'`, { type: QueryTypes.SELECT });
+        id::varchar ~ '${text}' OR
+        speciality::varchar ~ '${text}' OR
+        name::varchar ~ '${text}' OR
+        leader::varchar ~ '${text}' OR
+        year::varchar ~ '${text}';`, { type: QueryTypes.SELECT });
   };
 
-  sort = async ({ sortBy, sortDesc, items }) => {
-    return await sequelize.query(`SELECT * FROM Groups WHERE id IN ${prepareForIn(items)} ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
+  sort = async ({ sortBy, sortDesc }) => {
+    return await sequelize.query(`SELECT * FROM Groups ORDER BY ${sortBy} ${sortDesc}`, { type: QueryTypes.SELECT });
   };
 }
 
