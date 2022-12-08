@@ -1,11 +1,6 @@
 const postsModel = require('./../services/services.posts')
 const { map, toNumber, toString, get } = require('lodash');
 
-const DICTIONARY = {
-  id: 'id должности',
-  post: 'Должность',
-}
-
 class PostsController {
 
   adapter = (posts) => {
@@ -48,7 +43,6 @@ class PostsController {
 
   sort = async (req, res) => {
     let { sortBy, sortDesc, items } = req.body;
-    sortBy = DICTIONARY[sortBy];
     let sorted = await postsModel.sort({ sortBy, sortDesc, items });
     sorted = this.adapter(sorted);
     res.status(200).send(sorted);
