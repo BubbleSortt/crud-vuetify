@@ -1,6 +1,5 @@
 const sequelize = require('./connection');
 const { QueryTypes } = require('sequelize');
-const { prepareForIn } = require('../helpers');
 
 
 class Lessons {
