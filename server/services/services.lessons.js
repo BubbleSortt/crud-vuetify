@@ -35,12 +35,12 @@ class Lessons {
 
   search = async ({ text }) => {
     return await sequelize.query(`SELECT * FROM lessons WHERE
-    id LIKE '%${text}%' OR 
-    name LIKE '%${text}%'`, { type: QueryTypes.SELECT });
+        id::varchar ~* '${text}' OR
+        name::varchar ~* '${text}';`, { type: QueryTypes.SELECT });
   };
 
-  sort = async ({ sortBy, sortDesc, items }) => {
-    return await sequelize.query(`SELECT * FROM lessons WHERE \`id\` IN ${prepareForIn(items)} ORDER BY \`${sortBy}\` ${sortDesc}`, { type: QueryTypes.SELECT });
+  sort = async ({ sortBy, sortDesc }) => {
+    return await sequelize.query(`SELECT * FROM lessons ORDER BY ${sortBy} ${sortDesc}`, { type: QueryTypes.SELECT });
   };
 }
 

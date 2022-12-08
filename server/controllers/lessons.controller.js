@@ -41,8 +41,8 @@ class LessonsController {
     res.status(200).send(teachers);
   }
   sort = async (req, res) => {
-    let { sortBy, sortDesc, items } = req.body;
-    let sorted = await lessonsModel.sort({ sortBy, sortDesc, items });
+    let { sortBy, sortDesc } = req.body;
+    let sorted = await lessonsModel.sort({ sortBy, sortDesc });
     sorted = this.adapter(sorted);
     res.status(200).send(sorted);
   }
