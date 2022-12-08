@@ -1,6 +1,5 @@
 const sequelize = require('./connection');
 const { QueryTypes } = require('sequelize');
-const { prepareForIn } = require('../helpers');
 
 
 class Degrees {
@@ -33,12 +32,12 @@ class Degrees {
 
   search = async ({ text }) => {
     return await sequelize.query(`SELECT * FROM degrees WHERE
-    id LIKE '%${text}%' OR 
-    name LIKE '%${text}%'`, { type: QueryTypes.SELECT });
+    id::varchar ~* '${text}' OR 
+    name::varchar ~* '${text}';`, { type: QueryTypes.SELECT });
   }
 
-  sort = async ({ sortBy, sortDesc, items }) => {
-    return await sequelize.query(`SELECT * FROM degrees WHERE id IN ${prepareForIn(items)} ORDER BY ${sortBy} ${sortDesc}`, { type: QueryTypes.SELECT });
+  sort = async ({ sortBy, sortDesc }) => {
+    return await sequelize.query(`SELECT * FROM degrees ORDER BY ${sortBy} ${sortDesc}`, { type: QueryTypes.SELECT });
   }
 }
 
