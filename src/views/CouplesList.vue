@@ -71,8 +71,8 @@
         </VCardActions>
       </VCard>
     </VDialog>
-
   </div>
+
 </template>
 
 <script>
@@ -145,7 +145,12 @@ export default {
           items,
         }).then(res => res.json()).then(res => {
           this.loading = false;
-          this.sortedItems = res;
+          this.sortedItems = map(res, (item) => {
+            return {
+              ...item,
+              time: new Date(item.time)
+            }
+          })
         })
       }
     },

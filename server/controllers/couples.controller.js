@@ -9,7 +9,7 @@ class CouplesController {
       return {
         id: toNumber(get(degree, 'id', '')),
         audience: toString(get(degree, 'audience', '')),
-        time: new Date(get(degree, 'time', '')).toISOString().replace('Z', ''),
+        time: new Date(get(degree, 'time', '')).toISOString(),
         capacityId: toNumber(get(degree, 'capacityid', '')),
       }
     })
@@ -44,8 +44,8 @@ class CouplesController {
     res.status(200).send(teachers);
   }
   sort = async (req, res) => {
-    let { sortBy, sortDesc, items } = req.body;
-    let sorted = await couplesModel.sort({ sortBy, sortDesc, items });
+    let { sortBy, sortDesc } = req.body;
+    let sorted = await couplesModel.sort({ sortBy, sortDesc });
     sorted = this.adapter(sorted);
     res.status(200).send(sorted);
   }

@@ -39,14 +39,14 @@ class Couples {
 
   search = async ({ text }) => {
     return await sequelize.query(`SELECT * FROM couples WHERE
-    id LIKE '%${text}%' OR 
-    audience LIKE '%${text}%' OR
-    time LIKE '%${text}%' OR
-    capacityid LIKE '%${text}%'`, { type: QueryTypes.SELECT });
+    id::varchar ~* '${text}' OR 
+    audience::varchar ~* '${text}' OR
+    time::varchar ~* '${text}' OR
+    capacityid::varchar ~* '${text}'`, { type: QueryTypes.SELECT });
   }
 
-  sort = async ({ sortBy, sortDesc, items }) => {
-    return await sequelize.query(`SELECT * FROM couples WHERE id IN ${prepareForIn(items)} ORDER BY ${sortBy} ${sortDesc}`, { type: QueryTypes.SELECT });
+  sort = async ({ sortBy, sortDesc }) => {
+    return await sequelize.query(`SELECT * FROM couples ORDER BY ${sortBy} ${sortDesc}`, { type: QueryTypes.SELECT });
   }
 }
 

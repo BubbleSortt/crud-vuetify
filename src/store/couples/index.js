@@ -12,7 +12,7 @@ export default {
         ...item,
         time: new Date(item.time)
       }
-    } ),
+    }),
     itemById: state => state.items.reduce((res, cur) => {
       res[cur['id']] = cur;
       return res;
