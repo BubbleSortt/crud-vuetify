@@ -19,22 +19,28 @@
 
         <v-select
           v-model='form.lessonId'
-          :items="lessonsId"
-          label="id предмета"
+          :items="lessons"
+          item-value='id'
+          item-text='name'
+          label="Предмет"
           required
         ></v-select>
 
         <v-select
           v-model='form.teacherId'
-          :items="teachersId"
-          label="id преподавателя"
+          :items="teachers"
+          item-value='id'
+          item-text='surname'
+          label="Преподаватель"
           required
         ></v-select>
 
         <v-select
           v-model='form.groupId'
-          :items="groupsId"
-          label="id группы"
+          :items="groups"
+          item-text='name'
+          item-value='id'
+          label="Группа"
           required
         ></v-select>
 
