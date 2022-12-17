@@ -13,7 +13,7 @@
         <VTextField
           v-model='form.surname'
           :rules='surnameRules'
-          label='Фамилиия'
+          label='Фамилия'
           required
         />
 
@@ -47,15 +47,19 @@
 
         <v-select
           v-model='form.postId'
-          :items="postsId"
-          label="id должности"
+          :items="posts"
+          item-text="post"
+          item-value="id"
+          label="Должность"
           required
         ></v-select>
 
         <v-select
           v-model='form.degreeId'
-          :items="degreesId"
-          label="id ученой степени"
+          :items="degrees"
+          item-text="name"
+          item-value="id"
+          label="Ученая степень"
           required
         ></v-select>
 
