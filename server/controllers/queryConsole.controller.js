@@ -5,7 +5,6 @@ class queryConsoleController {
   query = async (req, res) => {
     const { query } = req.body;
     const response = await queryConsoleModel.query({ query });
-    console.log(response, 'res')
     res.send({...response});
   }
 

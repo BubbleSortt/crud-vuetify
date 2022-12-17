@@ -107,7 +107,13 @@ export default {
   watch: {
     search: debounce(async function(text) {
       const response = await Couples.search({ text });
-      this.searchItems = await response.json();
+      const data = await response.json();
+      this.searchItems = map(data, (item) => {
+        return {
+          ...item,
+          time: new Date(item.time)
+        }
+      })
     }, 300),
     options: {
       handler () {

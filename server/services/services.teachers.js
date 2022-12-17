@@ -1,6 +1,5 @@
 const sequelize = require('./connection');
 const { QueryTypes } = require('sequelize');
-const { prepareForIn } = require('../helpers');
 
 class Teachers {
 
@@ -64,21 +63,21 @@ class Teachers {
     return await sequelize.query(`SELECT teachers.id as id, surname, patronymic, rate, totalhours, teachers.name as name, post as postName, degrees.name as degreeName FROM teachers
      INNER JOIN posts ON teachers.postid = posts.id
      INNER JOIN degrees ON teachers.degreeid = degrees.id WHERE
-      \`id_Преподавателя\` LIKE '%${text}%' OR 
-      \`Имя\` LIKE '%${text}%' OR
-      \`Фамилия\` LIKE '%${text}%' OR
-      \`Отчество\` LIKE '%${text}%' OR
-      \`Ставка\` LIKE '%${text}%' OR
-      \`Общее_кол-во_часов\` LIKE '%${text}%' OR
-      \`Должность\` LIKE '%${text}%' OR
-      \`Наименование_степени\` LIKE '%${text}%'`, { type: QueryTypes.SELECT });
+      teachers.id::varchar ~* '${text}' OR 
+      teachers.name::varchar ~* '${text}' OR
+      surname::varchar ~* '${text}' OR
+      patronymic::varchar ~* '${text}' OR
+      rate::varchar ~* '${text}' OR
+      totalhours::varchar ~* '${text}' OR
+      posts.post::varchar ~* '${text}' OR
+      degrees.name::varchar ~* '${text}';`, { type: QueryTypes.SELECT });
   }
 
-  sort = async ({ sortBy, sortDesc, items }) => {
+  sort = async ({ sortBy, sortDesc }) => {
     return await sequelize.query(`SELECT 
        teachers.id as id, surname, teachers.name as name, patronymic, rate, totalhours, post as postName, degrees.name as degreeName FROM teachers
        INNER JOIN posts ON teachers.postid = posts.id
-       INNER JOIN degrees ON teachers.degreeid = degrees.id WHERE teachers.id IN ${prepareForIn(items)} ORDER BY ${sortBy} ${sortDesc}`, { type: QueryTypes.SELECT });
+       INNER JOIN degrees ON teachers.degreeid = degrees.id ORDER BY ${sortBy} ${sortDesc}`, { type: QueryTypes.SELECT });
   }
 
 }

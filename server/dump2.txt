@@ -201,3 +201,12 @@ UPDATE CASCADE;
 ALTER TABLE couples
     ADD CONSTRAINT fk_couples_capacities1 FOREIGN KEY (capacityId) REFERENCES capacities (id) ON
         UPDATE CASCADE;
+
+
+
+
+Создать группу со специальностясми групп
+Валидировать дату поступления, ограничнить диапазоном
+Показывать ошибки
+Вместо id названия
+Тестировать консоль
