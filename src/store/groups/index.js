@@ -4,13 +4,15 @@ export default {
   namespaced: true,
   state: {
     items: [],
+    errors: [],
   },
   getters: {
     items: state => state.items,
     itemById: state => state.items.reduce((res, cur) => {
       res[cur['id']] = cur;
       return res;
-    }, {})
+    }, {}),
+    errors: state => state.errors,
   },
   mutations: {
     setItems: (state, items) => {
@@ -28,6 +30,14 @@ export default {
     updateItem: (state, updateItem) => {
       const index = state.items.findIndex(item => parseInt(item.id) === parseInt(updateItem.id));
       state.items[index] = updateItem;
+    },
+
+    setError: (state, error) => {
+      state.errors.push(error);
+    },
+
+    removeErrors: (state) => {
+      state.errors = [];
     }
   },
   actions: {
@@ -45,16 +55,36 @@ export default {
     },
 
     createItem: async ({ commit }, { speciality, name, leader, year }) => {
-      console.log('add')
-      const response = await api.create({ speciality, name, leader, year })
-      const item = await response.json()
-      commit('setItem', item)
+      try {
+        const response = await api.create({ speciality, name, leader, year })
+        const data = await response.json()
+        if (response.status === 400) {
+          throw data;
+        }
+        commit('removeErrors');
+        commit('setItem', data);
+      } catch (e) {
+        commit('removeErrors');
+        commit('setError', {...e, id: new Date().getTime()});
+      }
+
     },
 
     updateItem: async ({ commit }, { id, speciality, name, leader, year }) => {
-      const response = await api.update({ id, speciality, name, leader, year });
-      const item = await response.json();
-      commit('updateItem', item);
+      try {
+        const response = await api.update({ id, speciality, name, leader, year });
+        const data = await response.json();
+        if (response.status === 400) {
+          throw data;
+        }
+        commit('removeErrors');
+        commit('updateItem', data);
+
+      } catch (e) {
+        commit('removeErrors');
+        commit('setError', {...e, id: new Date().getTime()});
+      }
+
     }
 
   },

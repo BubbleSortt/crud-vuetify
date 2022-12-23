@@ -22,13 +22,23 @@ class GroupsController {
   }
 
   createGroup = async (req, res) => {
-    const createdGroup = await groupsModel.create(req.body);
-    res.status(200).json(createdGroup);
+    try {
+      const createdGroup = await groupsModel.create(req.body);
+      res.status(200).json(createdGroup);
+    } catch (e) {
+      res.status(400).json({severity: 'error', message: e.message})
+    }
+
   }
 
   updateGroup = async (req, res) => {
-    const updatedRow = await groupsModel.update(req.body);
-    res.status(200).json(updatedRow);
+    try {
+      const updatedRow = await groupsModel.update(req.body);
+      res.status(200).json(updatedRow);
+    } catch (e) {
+      res.status(400).json({severity: 'error', message: e.message})
+    }
+
   }
 
   deleteGroup = async (req, res) => {

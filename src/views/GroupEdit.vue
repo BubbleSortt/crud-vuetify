@@ -37,6 +37,8 @@
           required
         />
 
+
+
         <VBtn
           depressed
           color='primary'
@@ -57,6 +59,11 @@
           </VBtn>
         </RouterLink>
       </VForm>
+    </div>
+    <div v-if='errorsC.length'>
+      <v-alert class='mt-4' v-for='error in errorsC' :key='error.id' :type="error.severity" >
+        {{ error.message }}
+      </v-alert>
     </div>
   </div>
 </template>
@@ -95,8 +102,8 @@ export default {
       return (
       this.form.speciality &&
       this.form.name &&
-      this.form.leader &&
-      (this.form.year && !!+this.form.year)
+      this.form.leader
+      (this.form.year && !!+this.form.year && (1970 <= this.form.year && this.form.year < new Date().getFullYear() +1))
       );
     },
 
@@ -104,8 +111,13 @@ export default {
       return this.itemById[this.id];
     },
 
+    errorsC: function () {
+      return this.errors;
+    },
+
     ...mapGetters({
-      'itemById': 'groups/itemById'
+      'itemById': 'groups/itemById',
+      'errors': 'groups/errors',
     })
   },
   watch: {
@@ -128,7 +140,7 @@ export default {
         this.$store.dispatch('groups/updateItem', group) :
         this.$store.dispatch('groups/createItem', group);
 
-      this.$router.push({ name: 'GroupsList' });
+      // this.$router.push({ name: 'GroupsList' });
     }
   },
 

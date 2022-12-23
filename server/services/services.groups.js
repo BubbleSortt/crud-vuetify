@@ -8,29 +8,40 @@ class Groups {
   };
 
   create = async ({ speciality, name, leader, year }) => {
-    await sequelize.query(`INSERT INTO Groups(
-    id,
-    speciality,
-    name,
-    leader,
-    year) VALUES (
-    default,
-    '${speciality}',
-    '${name}',
-    '${leader}', 
-    '${year}')`, { type: QueryTypes.INSERT });
+    try {
+      await sequelize.query(`INSERT INTO Groups(
+        id,
+        speciality,
+        name,
+        leader,
+        year) VALUES (
+        default,
+        '${speciality}',
+        '${name}',
+        '${leader}', 
+        '${year}')`, { type: QueryTypes.INSERT });
 
-    return await sequelize.query('SELECT * FROM Groups ORDER BY ID DESC LIMIT 1;', { type: QueryTypes.SELECT });
+      return await sequelize.query('SELECT * FROM Groups ORDER BY ID DESC LIMIT 1;', { type: QueryTypes.SELECT });
+
+    } catch (e) {
+      throw new Error(e.message);
+    }
   };
 
   update = async ({ id, speciality, name, leader, year }) => {
-    await sequelize.query(`UPDATE Groups SET
-    speciality = '${speciality}',
-    name = '${name}',
-    leader = '${leader}',
-    year = '${year}' WHERE Groups.id = ${id};`, { type: QueryTypes.UPDATE })
+    try {
+      await sequelize.query(`UPDATE Groups SET
+      speciality = '${speciality}',
+      name = '${name}',
+      leader = '${leader}',
+      year = '${year}' WHERE Groups.id = ${id};`, { type: QueryTypes.UPDATE })
+      return await sequelize.query(`SELECT * FROM Groups WHERE id = ${id}`, { type: QueryTypes.SELECT })
 
-    return await sequelize.query(`SELECT * FROM Groups WHERE id = ${id}`, { type: QueryTypes.SELECT })
+    } catch (e) {
+      throw new Error(e.message);
+    }
+
+
   };
 
   delete = async (id) => {
